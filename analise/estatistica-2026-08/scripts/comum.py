@@ -7,12 +7,12 @@ Regras que valem para todo o pacote (ver plano):
   4. `arena` está duplicado nos CSVs (execução repetida em modo append) e é deduplicado
      em toda carga; a duplicata é insumo exclusivo do A9.
 
-Protocolo v2 (novembro/2026, `codigo/robustez-2026-11/`), por variável de ambiente:
+Protocolo v2 (novembro/2026, `codigo/robustez-2026-11/`), por variavel de ambiente:
   PROTOCOLO=v2   a robustez vem de resultados_robustez_v2.csv (HEURISTICAS_DADOS_V2,
-                 padrão dados/brutos/v2) e a saída vai para tabelas_v2/ e figuras_v2/;
-  FORA_TREINO=1  só os pares com em_treino == 0 (fora da amostra de aptidão do AG),
-                 com saída em tabelas_v2_fora_treino/ e figuras_v2_fora_treino/.
-Sem as variáveis, nada muda: tabelas/ e figuras/ continuam as de agosto.
+                 padrao dados/brutos/v2) e a saida vai para tabelas_v2/ e figuras_v2/;
+  FORA_TREINO=1  so os pares com em_treino == 0 (fora da amostra de aptidao do AG),
+                 com saida em tabelas_v2_fora_treino/ e figuras_v2_fora_treino/.
+Sem as variaveis, nada muda: tabelas/ e figuras/ continuam as de agosto.
 """
 import os
 from pathlib import Path
