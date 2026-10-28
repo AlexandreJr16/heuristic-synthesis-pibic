@@ -15,6 +15,7 @@ decisões que parecem arbitrárias no código foram tomadas.
 | `multi-seed-reproducibility/` | O experimento roda com 5 sementes. |
 | `comprehensive-robustness-logging/` | O log é caso a caso, não agregado — foi o que tornou possível toda a reanálise de agosto. |
 | `synthesis-metrics-tracking/` | Tempo e aptidão da síntese são registrados. |
+| `degradacao-conectividade/` | Protocolo v2 (nov/2026): extremos protegidos (R1), conectividade preservada (R2), meta e rejeições registradas (R3), pares validados em cada nível. |
 
 `_propostas-arquivadas/` traz as duas propostas de mudança (março/2026) com sua justificativa,
 seu desenho e sua lista de tarefas.
@@ -22,3 +23,6 @@ seu desenho e sua lista de tarefas.
 > Note que `fixed-pair-selection` foi implementado de forma que gerou a limitação P2: os pares
 > são fixados **no estado de 30% de bloqueio** e reusados nos três níveis. A especificação pedia
 > pares fixos; a implementação os fixou no lugar errado.
+>
+> Resolvido no protocolo v2 (`degradacao-conectividade/`, `codigo/robustez-2026-11/`): os pares
+> são validados em cada nível e, com R1 e R2, são todos os pares conectados no mapa original.
