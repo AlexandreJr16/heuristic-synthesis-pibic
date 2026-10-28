@@ -132,6 +132,59 @@ mapa, populacao_inicial, n_geracoes, tempo_sintese_ms, formula_string, fitness_f
 
 ---
 
+## Dados da robustez v2 (novembro/2026)
+
+Gerados por `codigo/robustez-2026-11/` (`make rodar P=6` e `make juntar`, em 28/10/2026, 7,6 h
+de CPU). Ficam em `dados/brutos/v2/`, fora do Git, como os de março. Só o resumo é versionado,
+em `analise/estatistica-2026-08/medicoes/degradacao_v2_resumo.csv`.
+
+| Arquivo | Tamanho | Linhas (sem cabeçalho) |
+|---|---|---|
+| `resultados_robustez_v2.csv` | 976 MB | 6.963.000 |
+| `degradacao_v2_resumo.csv` | 94 KB | 1.275 |
+
+```
+d71760d608dca123594ef8eee22c9cbb78cc008784669a70c3c45821f51a06b7  resultados_robustez_v2.csv
+848e16603a028f2b90084d4bc00bc4f1a70f1a29e97ee82b4de10cbf59375650  degradacao_v2_resumo.csv
+```
+
+### `resultados_robustez_v2.csv`
+
+As 24 colunas de `resultados_robustez.csv`, na mesma ordem, mais duas no fim:
+
+- `exp_deg_mem_congelado`: expansões da memória no mapa degradado usando as distâncias
+  calculadas no mapa **original** (sem reprocessar; compare com `exp_deg_mem`, ver P1).
+- `em_treino`: 1 se o par entrou na amostra de aptidão do AG (`main.cpp:108-117`, `srand(42)`).
+  No `arena` todos os pares são de treino.
+
+Diferenças de população em relação a março:
+
+- Cada nível tem seus próprios pares válidos, que são **todos os pares conectados no mapa
+  original**: 23.210 por semente, 116.050 por padrão × nível, os mesmos nos 5 padrões e nos 3
+  níveis. As populações são aninhadas (iguais), ao contrário de março (P2).
+- `arena` aparece **uma vez** (não há duplicata, P7).
+- `exp_orig_*` e `path_orig_*` são a linha de base recalculada pelo v2. Ela bate com
+  `resultados_base.csv` em tudo, exceto 3 problemas da fórmula no `den602d` (P11).
+
+### `degradacao_v2_resumo.csv`
+
+Uma linha por mapa × semente × padrão × nível (17 × 5 × 5 × 3):
+
+```
+mapa, semente, padrao, nivel, pct_atingido, rejeitadas_r1, rejeitadas_r2, pares_validos,
+pares_validos_v1, pct_atingido_v1, colapso_pivo, pivos_colapsados, tentativas_r1, tentativas_r2
+```
+
+- `pct_atingido`: fração das células livres do original que ficou bloqueada no v2.
+- `rejeitadas_r1/r2`: células **distintas** recusadas por R1 (extremo de par) e R2 (dividiria
+  componente), acumuladas até o nível. `tentativas_r1/r2`: o mesmo contando cada sorteio.
+- `pares_validos_v1` e `pct_atingido_v1`: o gerador de março reproduzido com as mesmas sementes,
+  para comparação lado a lado.
+- `colapso_pivo`: `sim` se mais da metade dos pares válidos tem `h = 0` para algum `n`
+  (listados em `pivos_colapsados`); o P8 não foi corrigido.
+
+---
+
 ## Duas armadilhas que já custaram caro
 
 1. **`arena` está duplicado** em `resultados_base.csv` (3.900 linhas) e `resultados_robustez.csv`
