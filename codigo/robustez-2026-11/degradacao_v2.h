@@ -11,6 +11,7 @@
  - Grupo: regras
    protegeExtremos: marca origem e destino de todos os pares do cenario (R1)
    bloqueia: bloqueia a celula se R1 e R2 permitirem
+   celulaRecusada: a celula foi recusada por R1 ou R2 desde o ultimo degradaNiveis
  - Grupo: padroes
    Padrao: nome, gerador de marco (map.cpp) e gerador v2, com os mesmos parametros e sorteios
    PADROES: os 5 padroes na ordem de main.cpp:197-202
@@ -28,6 +29,7 @@ extern long long rejeitadasR1, rejeitadasR2, tentativasR1, tentativasR2, chamada
 
 void protegeExtremos(const vector<ScenProblem> &scen);
 bool bloqueia(int x, int y);
+bool celulaRecusada(int x, int y);
 
 struct Padrao { string nome; void (*v1)(int); void (*v2)(int); };
 extern const vector<Padrao> PADROES;

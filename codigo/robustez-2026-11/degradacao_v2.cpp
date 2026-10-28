@@ -105,6 +105,8 @@ bool bloqueia(int x, int y) {
   return true;
 }
 
+bool celulaRecusada(int x, int y) { return recusada[x * width + y]; }
+
 // Os cinco mecanismos abaixo sao os de map.cpp, linha a linha; so o ponto de bloqueio passa por bloqueia()
 
 static int radialV2(int raio, double aspecto) {

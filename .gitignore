@@ -14,6 +14,7 @@ codigo/medicoes-2026-08/sintese_worker
 codigo/robustez-2026-11/robustez_v2
 codigo/robustez-2026-11/testa_degradacao
 codigo/robustez-2026-11/conta_pivos
+codigo/robustez-2026-11/exporta_grid
 
 # --- Python ------------------------------------------------------------------
 __pycache__/

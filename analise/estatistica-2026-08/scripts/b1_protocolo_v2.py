@@ -200,6 +200,7 @@ for metrica in ("delta", "absoluta"):
     for regime in REGIMES:
         M = log_razao(W, metrica, regime)[nomes].to_numpy()
         av = anova(M, nomes)
+        av.to_csv(TABELAS / f"b1_anova_{metrica}_{regime}.csv")
         termo = "C(estrategia):C(padrao)"
         F_obs = av.loc[termo, "F"]
         rng = np.random.default_rng(SEED)

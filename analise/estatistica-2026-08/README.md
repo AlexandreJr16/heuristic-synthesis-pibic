@@ -41,6 +41,7 @@ set -x HEURISTICAS_DADOS ~/caminho/para/02-dados-brutos   # para o Dijkstra e o 
 | `b1_postos.csv`, `b1_friedman.csv` | postos de Friedman estático × degradado, χ², p e distância crítica de Nemenyi |
 | `b1_cliff.csv` | δ de Cliff e Wilcoxon (Manhattan × Mem-100, Fórmula × Mem-100, Fórmula × Manhattan) |
 | `b1_interacao.csv` | estratégia × padrão: F, η²ₚ e permutação (200, intra-instância) |
+| `b1_anova_<métrica>_<regime>.csv` | a ANOVA completa de cada modelo (efeitos principais e interações, com η²ₚ) |
 | `b1_sobrevivencia_v1_v2.csv` | pares válidos v1 × v2 por padrão e nível (v1 a 30% conferido contra o a10) |
 | `b1_rejeicao.csv` | bloqueio atingido e células recusadas por R1 e R2 |
 | `b1_pivos_bloqueados.csv`, `b1_colapso_pivo.csv` | pivôs em célula bloqueada; colapso de pivô (P8) |
