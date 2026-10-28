@@ -1,6 +1,7 @@
 // Testes do gerador v2 em cada mapa pedido, 5 sementes x 5 padroes:
 // fidelidade a map.cpp com as regras desligadas, R1, R2, cumulatividade e determinismo
 #include "degradacao_v2.h"
+#include <sys/wait.h>
 
 static vector<uint64_t> hashes(const vector<Nivel> &niveis) {
   vector<uint64_t> h;
@@ -9,6 +10,23 @@ static vector<uint64_t> hashes(const vector<Nivel> &niveis) {
     h.push_back(hashGrid());
   }
   return h;
+}
+
+// Controle negativo: verificaNivel tem que abortar (exit 5) com o grid v1 do Linear a 10%;
+// roda num processo filho porque a verificacao encerra o processo
+static bool reprovaV1(const vector<vector<bool>> &original, const vector<vector<int>> &compOriginal,
+                      int nComp, const vector<ScenProblem> &scen, const vector<int> &paresOriginal) {
+  auto v1 = degradaNiveis(PADROES[1].v1, SEMENTES[0], false, original);
+  pid_t pid = fork();
+  if (pid == 0) {
+    freopen("/dev/null", "w", stderr);
+    grid = v1[0].grid;
+    verificaNivel(original, compOriginal, nComp, scen, paresOriginal, "controle negativo");
+    _exit(0);
+  }
+  int st = 0;
+  waitpid(pid, &st, 0);
+  return WIFEXITED(st) && WEXITSTATUS(st) == 5;
 }
 
 int main(int argc, char **argv) {
@@ -31,6 +49,11 @@ int main(int argc, char **argv) {
     protegeExtremos(scen);
     cout << alvo << ": |S|=" << originalTraversableCells << " componentes=" << tam.size()
          << " pares=" << scen.size() << " conectados=" << paresOriginal.size() << endl;
+
+    bool reprova = reprovaV1(original, compOriginal, tam.size(), scen, paresOriginal);
+    falhas += !reprova;
+    cout << "  controle negativo (grid v1, Linear s" << SEMENTES[0] << " 10%): "
+         << (reprova ? "reprovado, ok" : "NAO REPROVOU") << endl;
 
     for (int semente : SEMENTES)
       for (auto &p : PADROES) {

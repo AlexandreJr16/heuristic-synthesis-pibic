@@ -60,7 +60,7 @@ Consequências registradas:
 |---|---|
 | Fidelidade: com R1/R2 desligadas, o v2 dá o mesmo hash de grid que `map.cpp` | 50/50 (`arena`, `brc201d`, 5 sementes × 5 padrões) |
 | R1, R2, cumulatividade, determinismo (`make teste`) | 50/50 |
-| Controle negativo: `verificaNivel` recebe um grid v1 | aborta por R1 (feito à mão; automatizar está pendente) |
+| Controle negativo: `verificaNivel` recebe um grid v1 (Linear, s42, 10%) | aborta, em `arena` e `brc201d` (`make teste`) |
 | Linha de base contra `resultados_base.csv` de março | Manhattan e memória: 85/85 iguais. Fórmula: igual, exceto 3 problemas do `den602d` |
 | Controle negativo da exceção: divergência declarada que não aparece | aborta |
 | v1 reproduzido a 30% contra `tabelas/a10_sobrevivencia_por_padrao.csv` | idêntico nos 5 padrões |
@@ -278,8 +278,6 @@ Tabelas em `tabelas_v2_fora_treino/`.
 - **P5:** cada mapa tem uma fórmula só, de uma síntese não reprodutível.
 - **P8:** o colapso de pivô foi mantido (§6) e entra nas médias.
 - **P11:** 3 problemas do `den602d` divergem de março na linha de base (§4).
-- O controle negativo de `verificaNivel` foi feito à mão; automatizar no `testa_degradacao`
-  está pendente.
 
 ## 10. Como reproduzir
 
