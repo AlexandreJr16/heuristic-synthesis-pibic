@@ -67,6 +67,10 @@ Consequências registradas:
 | Pares válidos em cada nível = pares conectados no original | 23.210 por semente em todos os 1.275 (mapa, semente, padrão, nível) |
 | Análise v2 rodada duas vezes | 22 tabelas byte a byte iguais |
 | Análise v1 depois das mudanças em `comum.py` | 34 tabelas byte a byte iguais; figuras com os mesmos pixels |
+| `complemento_v2` reproduz as expansões da memória sem atualização do `robustez_v2` | 6.963.000 de 6.963.000 iguais |
+| Custo de atualizar contado por componente contra `bfsPivo` real | igual em todos os jobs (o programa aborta se diferir) |
+| Caminho da Manhattan no mapa degradado contra BFS (pares com id % 10 == 0) | 174.075 de 174.075 iguais |
+| Proposição A: caminho da memória = ótimo | 0 violações em 1.740.750 buscas por número de pivôs, no original e nos dois regimes |
 
 **A divergência do `den602d` (P11).** Nos ids 440, 711 e 2075, iguais nas 5 sementes, a fórmula dá
 1 expansão a mais ou 2 células de caminho de diferença em relação a março. O valor exato da
@@ -82,6 +86,9 @@ próprio v2, então ficam internamente consistentes.
   relógio, pico de 320 MB por processo. O job mais longo foi o `brc202d` (≈ 18 min).
 - **Saída:** `resultados_robustez_v2.csv` (6.963.000 linhas, 976 MB) e `degradacao_v2_resumo.csv`
   (1.275 linhas). sha256 em `dados/MANIFESTO.md`.
+- **Medição complementar** (`make complemento P=6`, 28/10/2026): caminho e expansões da memória sem
+  atualização, células visitadas para atualizar os pivôs e o ótimo por BFS numa amostra. 85 jobs,
+  **5,8 h de CPU**, ≈ 1 h de relógio. sha256 em `dados/MANIFESTO.md`.
 - **Custo da degradação v2:** menos de 1% do tempo; no pior padrão (orgânico), ~7.600 BFS e
   ~7 milhões de células visitadas por mapa e semente, ~150 ms.
 
@@ -245,8 +252,10 @@ padrão × nível), permutação do rótulo de estratégia dentro da instância 
 | absoluta | sem atualização | 6,49 | 0,016 | 0,005 |
 
 p = 0,005 é o piso com 200 permutações (1/201): nenhuma permutação chegou perto (F nulo máximo
-≤ 0,06). A interação existe, mas é pequena: no v1 o η²ₚ era 0,241, inflado pelas populações
-diferentes entre padrões (P2).
+≤ 0,06). Nesta medida (η²ₚ sobre células), a interação é bem menor que no v1 (0,241), que era inflado
+pelas populações diferentes entre padrões (P2). Com o mapa como sujeito, ela continua significativa e
+o η²ₚ é grande (§11); o padrão muda o tamanho das diferenças, mas não troca a ordem entre a fórmula e
+a memória.
 
 ### Só os pares fora do treino do AG (`em_treino == 0`, n = 16)
 
@@ -255,7 +264,127 @@ Ganho sobre a Manhattan: Fórmula 2,73×, Memória-100 com atualização 9,32×,
 1,47×. Na razão absoluta sem atualização, a fórmula volta a ter posto 1,00 nos 16 mapas.
 Tabelas em `tabelas_v2_fora_treino/`.
 
-## 8. O que os números sustentam
+## 8. Qualidade do caminho e Proposição A (`b2_qualidade_caminho.py`)
+
+**Método.** ρ = caminho da fórmula ÷ caminho ótimo. No mapa degradado, o ótimo é o caminho da Manhattan
+(`path_deg_manh`), conferido contra BFS em 174.075 pares (todos iguais). Pares com origem = destino têm
+ρ = 1. A Proposição A é testada comparando o caminho da memória com o ótimo em todas as buscas.
+
+| Cenário | ρ (média geométrica nos mapas, IC 95% BCa) | caminhos ótimos | excesso > 10% |
+|---|---|---|---|
+| estático | 1,1045 [1,080; 1,126] | 18,5% | 44,9% |
+| degradado 10% | 1,1107 [1,091; 1,126] | 12,2% | 50,8% |
+| degradado 20% | 1,1043 [1,091; 1,116] | 10,2% | 48,2% |
+| degradado 30% | 1,0840 [1,074; 1,096] | 10,1% | 34,3% |
+| degradado, todos | 1,0996 [1,086; 1,112] | 10,9% | 44,4% |
+
+- Por mapa, ρ degradado vai de 1,044 a 1,142. Fora do treino: 1,1032 [1,092; 1,114].
+- **A degradação não piora o caminho da fórmula:** o excesso médio fica em ~10%, como no estático.
+  O que cai é a fração de caminhos exatamente ótimos (18,5% → 10,9%).
+- **Proposição A confirmada:** 0 violações nos dois regimes (§4).
+
+> Sem atualização, a fórmula expande **1,84×** menos que a melhor memória congelada (Memória-100), ao
+> custo de caminhos **10,0%** mais longos em média. Fora do treino: 1,86× e 10,3%.
+
+Figuras: `figuras_v2/fig_b2_rho`; notebook, `rho_formula_por_mapa`.
+
+## 9. Ponto de equilíbrio da atualização (`b3_equilibrio.py`)
+
+**Método.** Custo de atualizar U = células visitadas pelas BFS dos pivôs fixos no mapa degradado,
+contadas por `complemento_v2` (por componente conexa, conferido contra `bfsPivo`). Economia por
+busca = média aritmética de expansões da alternativa − da memória atualizada, no mesmo mapa, nível e
+número de pivôs. Com 1 expansão = c visitas de BFS, Q* = U ÷ (c × economia).
+
+| Memória-100 contra a fórmula, Q* (mediana [mín; máx] nos mapas) | 10% | 20% | 30% |
+|---|---|---|---|
+| c = 1 | 1.131 [571; 11.649] | 910 [526; 3.167] | 763 [491; 1.503] |
+| c = 2 | 565 [285; 5.824] | 455 [263; 1.583] | 381 [245; 751] |
+| c = 5 | 226 [114; 2.329] | 182 [105; 633] | 152 [98; 300] |
+| c = 10 | 113 [57; 1.165] | 91 [52; 317] | 76 [49; 150] |
+
+- **Com a memória mais barata de cada mapa** (o número de pivôs que alcança a fórmula com menos
+  buscas, em geral 10 ou 20), Q* com c = 1 cai para 154 [64; 3.423], 126 [62; 515] e 105 [58; 335]
+  buscas a 10, 20 e 30%; com c = 10, para 15, 13 e 11.
+- Contra a memória sem atualização com os mesmos pivôs, atualizar compensa mais cedo: medianas de 37 a
+  621 buscas com c = 1, conforme nível e pivôs.
+- **Sem economia:** em 9 combinações (mapa, nível, pivôs) a memória atualizada expande mais que a
+  fórmula e Q* = ∞: `brc000d` com 50 pivôs e `brc201d` com 10 e 50. São exatamente as células de
+  colapso de pivô.
+- **Sensibilidade a c:** Q*(c) = Q*(1)/c em todas as linhas. A conclusão qualitativa não muda (há um
+  limiar; abaixo dele a fórmula vence); c só desloca o limiar.
+
+> Com mudanças a cada menos de **921** buscas (mediana entre os mapas; de 532 a 2.891, com c = 1 e
+> Memória-100), a fórmula é a melhor escolha; acima disso, atualizar a memória compensa. Fora do
+> treino: 911 (534 a 1.980).
+
+Figuras: `figuras_v2/fig_b3_equilibrio`, `fig_b3_equilibrio_perfis`; notebook, `equilibrio_atualizacao`,
+`equilibrio_por_perfil`.
+
+## 10. Mecanismo da perda da memória sem atualização (`b4_mecanismo.py`)
+
+**Método.** Desvio do par r = `path_deg_manh / path_orig_manh`; aumento = `exp_deg / exp_orig` da
+heurística. Spearman entre r e o aumento, por mapa (sementes, padrões e níveis juntos); Wilcoxon pareado
+por mapa. 2.700 linhas com origem = destino ficam fora.
+
+| Spearman(r, aumento), mediana [mín; máx] nos 17 mapas | |
+|---|---|
+| Manhattan | 0,44 [0,12; 0,83] |
+| Fórmula | 0,60 [0,28; 0,88] |
+| Memória-10 sem / com atualização | 0,61 [0,13; 0,83] / 0,46 [0,12; 0,71] |
+| Memória-100 sem / com atualização | 0,77 [0,59; 0,84] / 0,76 [0,66; 0,92] |
+
+| Aumento mediano por faixa de desvio | r = 1 | 1–1,1 | 1,1–1,5 | 1,5–2 | > 2 |
+|---|---|---|---|---|---|
+| Manhattan | 1,00 | 1,02 | 1,17 | 1,65 | 6,60 |
+| Fórmula | 1,00 | 1,02 | 1,52 | 2,47 | 7,63 |
+| Memória-100 com atualização | 1,00 | 1,08 | 1,40 | 1,94 | 3,36 |
+| Memória-100 sem atualização | 1,00 | 7,13 | 12,95 | 18,50 | 26,19 |
+
+- A Memória-100 sem atualização correlaciona mais que a fórmula em 14 de 17 mapas (Wilcoxon p = 0,0004);
+  a Memória-10 sem atualização, não (7 de 17, p = 1,00). **A correlação sozinha não separa as
+  heurísticas**; o que separa é a magnitude.
+- **A perda é em degrau:** com até 10% de desvio, a memória congelada já expande 4 a 7× mais (10 a 100
+  pivôs), contra 1,02× da fórmula e da Manhattan.
+- **Com r = 1** (caminho ótimo inalterado), o aumento mediano é 1,00 em todas as heurísticas, inclusive
+  a memória congelada; 18% a 32% dos pares pioram um pouco em todas.
+
+Figuras: `figuras_v2/fig_b4_aumento_por_desvio`; notebook, `mecanismo_desvio`.
+
+## 11. Interação estratégia × padrão sem pseudorreplicação (`b5_modelo_misto.py`)
+
+**Método.** Células = média de log da razão por (mapa, semente, padrão, nível, estratégia). (1) Modelo
+misto `log y ~ estratégia × padrão × nível`, intercepto aleatório por mapa e variância da semente dentro
+do mapa, ML; teste de razão de verossimilhança para os termos com estratégia × padrão. (2) O mesmo com
+variância da estratégia dentro do mapa. (3) `AnovaRM` sobre as médias por mapa, com o mapa como sujeito.
+
+- **Os quatro testes** (os três acima e a permutação do b1) **dão p < 0,05 nas quatro combinações** de
+  métrica e regime, nos dois recortes. Todos convergiram; alguns ajustes avisam "MLE na fronteira".
+- Componentes de variância (modelo padrão, escala log): mapa 0,015 a 0,091; semente 0,0014 a 0,015;
+  resíduo 0,039 a 0,136.
+- **Medidas repetidas, η²ₚ da interação:** δ com atualização 0,64; δ sem 0,50; ganho com 0,66; ganho sem
+  0,33. É grande porque o erro passa a ser só a variação da interação entre mapas; não se compara ao
+  η²ₚ sobre células da §7 (0,073).
+- **Leitura:** a interação existe também com o mapa como unidade. O padrão muda o tamanho das diferenças
+  entre as estratégias, mas não troca a ordem entre a fórmula e a memória (com atualização acima, sem
+  atualização abaixo) em nenhum padrão e nível.
+
+Tabelas: `b5_modelo_misto.csv`, `b5_anovarm_<métrica>_<regime>.csv`.
+
+## 12. Conferências (`b6_conferencias.py`)
+
+- **Memória-10 estática, 4,37× (v2) contra 4,70× (agosto).** Agosto publicou o ganho **excluindo** as
+  7 células (mapa, semente, pivôs) de colapso de pivô; com elas, o mesmo cálculo dá 4,37×. O v2
+  reproduz as duas versões exatamente (tolerância relativa 10⁻⁹). O mesmo vale para a Memória-50
+  (7,32× sem colapso, 5,92× com). Memória-20 e -100 não têm colapso. **Para o artigo:** usar o número
+  com colapso (4,37×), porque o v2 mantém o colapso em toda a análise degradada; o sem colapso entra
+  como sensibilidade.
+- **Memória sem atualização pior que a Manhattan.** Por mapa: `brc000d` (Memória-50, 0,69×), `brc201d`
+  (Memória-10, 0,91×; Memória-50, 0,76×). Por (mapa, semente, pivôs): 8 células, das quais 7 são
+  exatamente as de colapso; a oitava é `arena` s42 com 10 pivôs, razão 1,001 (empate). Sem as células
+  de colapso, nenhum mapa fica pior que a Manhattan (a Memória-10 sem atualização vai de 1,276× para
+  1,305×; a Memória-50, de 1,321× para 1,417×).
+
+## 13. O que os números sustentam
 
 - "A fórmula é a menos degradada" **não vale no v2**. No v1 essa frase vinha dos pares curtos e
   do mapa partido.
@@ -267,19 +396,26 @@ Tabelas em `tabelas_v2_fora_treino/`.
     memória e sem custo de atualização.
 - A memória sem atualização continua admissível e só perde eficiência: as distâncias do original
   não superestimam as do mapa degradado, que só perde arestas.
-- **Custo de atualizar:** a pré-computação dos pivôs (escolha Farthest-First + BFS) custou de
-  5,2 a 207,7 ms por mapa com 100 pivôs (`medicoes/pivos_precomp.csv`, agosto). Recalcular só as
-  BFS de pivôs fixos custa menos que isso. Os tempos valem só como ordem de grandeza (P3).
+- **Quando atualizar compensa (§9):** em operações, atualizar a Memória-100 se paga a partir de ~921
+  buscas entre mudanças (mediana; c = 1), ou de ~105 a 154 com a memória mais barata de cada mapa. Abaixo
+  disso, a fórmula é a melhor escolha. O limiar escala com 1/c.
+- **O preço da fórmula (§8):** caminhos ~10% mais longos que o ótimo, no estático e no degradado.
+- **O mecanismo (§10):** a memória congelada perde em degrau assim que o caminho ótimo desvia; se o
+  caminho não muda, ela não perde.
 
-## 9. Limitações que continuam
+## 14. Limitações que continuam
 
 - **P3:** os tempos não sustentam conclusão; o v2 grava as colunas de tempo, mas a análise não
   as usa.
 - **P5:** cada mapa tem uma fórmula só, de uma síntese não reprodutível.
 - **P8:** o colapso de pivô foi mantido (§6) e entra nas médias.
 - **P11:** 3 problemas do `den602d` divergem de março na linha de base (§4).
+- **Ponto de equilíbrio:** o custo é contado em operações, com 1 expansão = c visitas de BFS; o c real
+  depende da implementação e não foi medido (P3). Não entra o custo da pré-computação inicial, que é o
+  mesmo para os dois regimes da memória, nem o da síntese da fórmula, que é feita uma vez, fora de
+  linha.
 
-## 10. Como reproduzir
+## 15. Como reproduzir
 
 `docs/05-como-reproduzir.md`, seção 5 (C++), e `analise/estatistica-2026-08/README.md`, seção
 "Protocolo v2" (`run_all.py --v2`).

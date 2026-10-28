@@ -183,6 +183,23 @@ pares_validos_v1, pct_atingido_v1, colapso_pivo, pivos_colapsados, tentativas_r1
 - `colapso_pivo`: `sim` se mais da metade dos pares válidos tem `h = 0` para algum `n`
   (listados em `pivos_colapsados`); o P8 não foi corrigido.
 
+### Complementos (`make complemento` e `make juntar-complemento`, 28/10/2026, 5,8 h de CPU)
+
+Mesma degradação e mesmos pivôs da execução v2. Ficam em `dados/brutos/v2/`, fora do Git; o de custo é
+versionado em `analise/estatistica-2026-08/medicoes/custo_atualizacao_v2.csv`.
+
+| Arquivo | Linhas (sem cabeçalho) | Conteúdo |
+|---|---|---|
+| `complemento_congelada.csv` | 6.963.000 | `exp_deg_mem_congelado` (idêntico ao do CSV v2) e `path_deg_mem_congelado`, por par × padrão × nível × pivôs |
+| `complemento_custo.csv` | 5.100 | `celulas_bfs_atualizacao` (células visitadas pelas BFS dos pivôs fixos no mapa degradado), `celulas_bfs_original`, `pivos_bloqueados`, por mapa × semente × padrão × nível × pivôs |
+| `complemento_otimo.csv` | 174.075 | `dist_bfs`: distância BFS no mapa degradado, pares com `id_problema % 10 == 0` |
+
+```
+648c7e91f40b095f2cac629540bc1ed5203d713e3af452f39be387a25ada10ff  complemento_congelada.csv
+8562cfcb4866d75616d910ba8c1d0c5bbab79ce25726bafb163f165e59757ebe  complemento_custo.csv
+c3df7a6098e89e5a3c8a76fa9d14040e49c6b3183f9951350dcf9fb0c18dd068  complemento_otimo.csv
+```
+
 ---
 
 ## Duas armadilhas que já custaram caro

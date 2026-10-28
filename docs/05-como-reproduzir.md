@@ -152,7 +152,14 @@ env HEURISTICAS_DADOS=$HOME/Downloads make teste         # R1, R2, cumulativa, d
 env HEURISTICAS_DADOS=$HOME/Downloads make piloto        # den501d, 5 sementes, ~3 min
 env HEURISTICAS_DADOS=$HOME/Downloads make rodar P=6     # 85 jobs, ~1h30 a 2h com 6 processos
 make juntar                                              # dados/brutos/v2/*.csv + sha256
+make complemento P=6                                     # memória sem atualização, custo de atualizar, ótimo (~1 h)
+make juntar-complemento
+cd ../../analise/estatistica-2026-08
+env HEURISTICAS_DADOS=$HOME/Downloads .venv/bin/python scripts/run_all.py --v2   # b1 a b6, ~8 min
 ```
+
+O notebook `analise/notebook-2026-10/historia_v2.ipynb` conta a história a partir dessas tabelas
+(ver o README da pasta).
 
 - Troque `$HOME/Downloads` pela pasta onde estão os CSVs de março. No fish, use `$HOME`, não `~`:
   o fish não expande `~` depois do `=`, e o programa aborta sem achar o CSV.

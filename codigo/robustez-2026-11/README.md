@@ -7,6 +7,9 @@ perde pares. A síntese, as fórmulas e a linha de base são as de março: nada 
 |---|---|
 | `robustez_v2` | um par (mapa, semente): linha de base conferida contra março, degradação v1 e v2 nos três níveis, A\* nos pares válidos |
 | `testa_degradacao` | fidelidade a `map.cpp`, R1, R2, cumulatividade e determinismo, em `arena` e `brc201d` |
+| `complemento_v2` | por (mapa, semente): caminho e expansões da memória sem atualização, custo de atualizar os pivôs (células das BFS) e o ótimo por BFS numa amostra |
+| `conta_pivos` | pivôs que caem em célula bloqueada, v1 e v2 |
+| `exporta_grid` | grids v1 e v2 a 30%, com as passagens da R2, para o notebook |
 
 O protocolo, as decisões e os números estão em `docs/06-protocolo-v2.md`. Os requisitos estão em
 `docs/especificacoes/degradacao-conectividade/spec.md`.
@@ -63,6 +66,13 @@ make juntar                                              # 85 partes -> 2 CSVs +
   código entre as sessões: o `make` recompilaria e as partes viriam de versões diferentes.
 - Progresso: `ls ../../dados/brutos/v2/partes/*_resumo.csv | wc -l` (de 85).
 - Log de cada job em `../../dados/brutos/v2/logs/<mapa>_<semente>.log`.
+
+Medições complementares (≈ 1 h com `P=6`, 5,8 h de CPU; também retomáveis):
+
+```fish
+make complemento P=6        # dados/brutos/v2/complemento/<mapa>_<semente>_{congelada,custo,otimo}.csv
+make juntar-complemento     # dados/brutos/v2/complemento_*.csv + sha256
+```
 
 ## Saída
 

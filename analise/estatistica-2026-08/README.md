@@ -45,6 +45,11 @@ set -x HEURISTICAS_DADOS ~/caminho/para/02-dados-brutos   # para o Dijkstra e o 
 | `b1_sobrevivencia_v1_v2.csv` | pares válidos v1 × v2 por padrão e nível (v1 a 30% conferido contra o a10) |
 | `b1_rejeicao.csv` | bloqueio atingido e células recusadas por R1 e R2 |
 | `b1_pivos_bloqueados.csv`, `b1_colapso_pivo.csv` | pivôs em célula bloqueada; colapso de pivô (P8) |
+| `b2_*` | ρ da fórmula (estático, por nível e padrão), conferência do ótimo contra BFS, Proposição A |
+| `b3_*` | ponto de equilíbrio Q* da atualização da memória, por mapa, nível, pivôs e c |
+| `b4_*` | mecanismo: Spearman entre desvio do caminho e aumento de expansões, aumento por faixa de desvio |
+| `b5_*` | interação estratégia × padrão por modelo misto e ANOVA de medidas repetidas |
+| `b6_*` | conferências: ganho estático com e sem colapso de pivô contra agosto; memória pior que a Manhattan |
 
 ## Estrutura
 
