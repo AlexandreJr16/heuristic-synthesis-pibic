@@ -4,8 +4,9 @@
 /*
  - Grupo: estado
    aplicaRegras: liga R1 e R2; desligado, os mecanismos v2 reproduzem o map.cpp de marco
-   rejeitadasR1: tentativas recusadas por cair em origem ou destino de par
-   rejeitadasR2: tentativas recusadas por dividir uma componente conexa
+   rejeitadasR1: celulas distintas recusadas por serem origem ou destino de par
+   rejeitadasR2: celulas distintas recusadas por dividir uma componente conexa
+   tentativasR1, tentativasR2: tentativas recusadas (a mesma celula conta a cada sorteio)
    chamadasBfs, celulasBfs: custo do teste global de conectividade
  - Grupo: regras
    protegeExtremos: marca origem e destino de todos os pares do cenario (R1)
@@ -14,7 +15,7 @@
    Padrao: nome, gerador de marco (map.cpp) e gerador v2, com os mesmos parametros e sorteios
    PADROES: os 5 padroes na ordem de main.cpp:197-202
    NIVEIS: 10, 20 e 30% das celulas livres do mapa original
-   Nivel: grid de um nivel, % atingido e rejeicoes acumuladas ate ele
+   Nivel: grid de um nivel, % atingido, celulas e tentativas recusadas acumuladas ate ele
    degradaNiveis: srand(semente) e degradacao cumulativa 10 -> 20 -> 30 a partir do original
  - Grupo: verificacao
    hashGrid: FNV-1a do grid atual
@@ -23,7 +24,7 @@
 */
 
 extern bool aplicaRegras;
-extern long long rejeitadasR1, rejeitadasR2, chamadasBfs, celulasBfs;
+extern long long rejeitadasR1, rejeitadasR2, tentativasR1, tentativasR2, chamadasBfs, celulasBfs;
 
 void protegeExtremos(const vector<ScenProblem> &scen);
 bool bloqueia(int x, int y);
@@ -32,7 +33,7 @@ struct Padrao { string nome; void (*v1)(int); void (*v2)(int); };
 extern const vector<Padrao> PADROES;
 extern const vector<double> NIVEIS;
 
-struct Nivel { vector<vector<bool>> grid; double pct; long long r1, r2; };
+struct Nivel { vector<vector<bool>> grid; double pct; long long r1, r2, t1, t2; };
 vector<Nivel> degradaNiveis(void (*degrada)(int), int semente, bool metaAbsoluta,
                             const vector<vector<bool>> &original);
 

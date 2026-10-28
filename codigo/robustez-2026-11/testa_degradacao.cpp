@@ -55,7 +55,8 @@ int main(int argc, char **argv) {
         cout << "  " << ctx << ": fidelidade=" << (fiel ? "ok" : "FALHOU")
              << " determinismo=" << (determinista ? "ok" : "FALHOU") << " R1/R2/cumulativa=ok"
              << " componentes<=" << maxComp << " pct=" << fixed << setprecision(4) << a[0].pct << "/"
-             << a[1].pct << "/" << a[2].pct << " rejeitadas_r1=" << a[2].r1 << " r2=" << a[2].r2 << endl;
+             << a[1].pct << "/" << a[2].pct << " rejeitadas_r1=" << a[2].r1 << " r2=" << a[2].r2
+             << " tentativas=" << a[2].t1 << "/" << a[2].t2 << endl;
       }
   }
   cout << (falhas ? "FALHOU" : "PASSOU") << " (" << falhas << " falhas)" << endl;

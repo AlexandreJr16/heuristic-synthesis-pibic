@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
          "tempo_orig_manh_ms,tempo_deg_manh_ms,tempo_orig_form_ms,tempo_deg_form_ms,tempo_orig_mem_ms,tempo_deg_mem_ms,"
          "exp_deg_mem_congelado,em_treino\n";
   res << "mapa,semente,padrao,nivel,pct_atingido,rejeitadas_r1,rejeitadas_r2,pares_validos,"
-         "pares_validos_v1,pct_atingido_v1,colapso_pivo,pivos_colapsados\n";
+         "pares_validos_v1,pct_atingido_v1,colapso_pivo,pivos_colapsados,tentativas_r1,tentativas_r2\n";
 
   for (auto &p : PADROES) {
     auto td = chrono::high_resolution_clock::now();
@@ -197,10 +197,12 @@ int main(int argc, char **argv) {
       }
       res << alvo << "," << semente << "," << p.nome << "," << pct << "," << fixed << setprecision(6) << v2[k].pct
           << "," << v2[k].r1 << "," << v2[k].r2 << "," << validos.size() << "," << validosV1 << "," << v1[k].pct
-          << "," << (colapsados.empty() ? "nao" : "sim") << "," << (colapsados.empty() ? "-" : colapsados) << "\n"
+          << "," << (colapsados.empty() ? "nao" : "sim") << "," << (colapsados.empty() ? "-" : colapsados) << ","
+          << v2[k].t1 << "," << v2[k].t2 << "\n"
           << defaultfloat;
       cerr << "    " << pct << ": bloqueio " << v2[k].pct << " (v1 " << v1[k].pct << "), pares " << validos.size()
-           << " (v1 " << validosV1 << "), rejeitadas r1=" << v2[k].r1 << " r2=" << v2[k].r2
+           << " (v1 " << validosV1 << "), rejeitadas r1=" << v2[k].r1 << " r2=" << v2[k].r2 << " (tentativas "
+           << v2[k].t1 << "/" << v2[k].t2 << ")"
            << (colapsados.empty() ? "" : ", colapso n=" + colapsados) << endl;
     }
   }

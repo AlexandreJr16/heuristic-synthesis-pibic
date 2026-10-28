@@ -1,9 +1,9 @@
 #include "degradacao_v2.h"
 
 bool aplicaRegras = true;
-long long rejeitadasR1 = 0, rejeitadasR2 = 0, chamadasBfs = 0, celulasBfs = 0;
+long long rejeitadasR1 = 0, rejeitadasR2 = 0, tentativasR1 = 0, tentativasR2 = 0, chamadasBfs = 0, celulasBfs = 0;
 
-static vector<char> protegida;
+static vector<char> protegida, recusada;
 static vector<int> marca;
 static int geracao = 0;
 
@@ -85,8 +85,11 @@ bool bloqueia(int x, int y) {
     grid[x][y] = false;
     return true;
   }
-  if (protegida[x * width + y]) {
-    rejeitadasR1++;
+  int i = x * width + y;
+  if (protegida[i]) {
+    tentativasR1++;
+    rejeitadasR1 += !recusada[i];
+    recusada[i] = 1;
     return false;
   }
   auto reps = trechosLocais(x, y);
@@ -94,7 +97,9 @@ bool bloqueia(int x, int y) {
   for (size_t j = 1; j < reps.size(); j++)
     if (!ligados(reps[0], reps[j])) {
       grid[x][y] = true;
-      rejeitadasR2++;
+      tentativasR2++;
+      rejeitadasR2 += !recusada[i];
+      recusada[i] = 1;
       return false;
     }
   return true;
@@ -249,13 +254,15 @@ vector<Nivel> degradaNiveis(void (*degrada)(int), int semente, bool metaAbsoluta
                             const vector<vector<bool>> &original) {
   grid = original;
   srand(semente);
-  rejeitadasR1 = rejeitadasR2 = 0;
+  rejeitadasR1 = rejeitadasR2 = tentativasR1 = tentativasR2 = 0;
+  recusada.assign(height * width, 0);
   vector<Nivel> niveis;
   int lastTarget = 0;
   for (double pct : NIVEIS) {
     int target = static_cast<int>(originalTraversableCells * pct);
     degrada(target - (metaAbsoluta ? bloqueadasAgora() : lastTarget));
-    niveis.push_back({grid, (double)bloqueadasAgora() / originalTraversableCells, rejeitadasR1, rejeitadasR2});
+    niveis.push_back({grid, (double)bloqueadasAgora() / originalTraversableCells, rejeitadasR1, rejeitadasR2,
+                      tentativasR1, tentativasR2});
     lastTarget = target;
   }
   return niveis;
