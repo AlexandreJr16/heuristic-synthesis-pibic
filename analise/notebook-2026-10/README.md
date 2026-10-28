@@ -6,9 +6,19 @@ heurística poder ser atualizada). Serve para explorar os dados e para tirar as 
 
 ## Como rodar
 
-No VS Code, abra o notebook e escolha como kernel o `.venv` de `analise/estatistica-2026-08/`
-(se ainda não existir: `python3 -m venv .venv` e `.venv/bin/pip install -r requirements.txt`
-naquela pasta). Depois, "Run All". Leva uns 15 s.
+O notebook já aponta para o kernel **"Heurísticas v2 (.venv da análise)"**
+(`heuristicas-v2`), que é o `.venv` de `analise/estatistica-2026-08/`. Numa máquina nova, crie o
+ambiente e registre o kernel uma vez, de dentro daquela pasta:
+
+```fish
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m ipykernel install --user --name heuristicas-v2 --display-name "Heurísticas v2 (.venv da análise)"
+```
+
+Depois é só abrir o notebook no VS Code e usar "Run All" (uns 15 s). Se o VS Code abrir com
+outro kernel, clique no nome do kernel no canto superior direito e escolha "Heurísticas v2" em
+"Jupyter Kernel".
 
 Pela linha de comando, da pasta do notebook:
 
