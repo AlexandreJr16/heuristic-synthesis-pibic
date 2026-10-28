@@ -1,0 +1,11 @@
+heuristica,mediana,frac_aumento_maior_1
+Manhattan,1.0,0.1682142857142857
+Fórmula,1.0,0.20062485234953714
+Memória-10 com atualização,1.0,0.3047213951509996
+Memória-10 sem atualização,1.0,0.2176706632315682
+Memória-20 com atualização,1.0,0.3040764135697024
+Memória-20 sem atualização,1.0,0.248419057629997
+Memória-50 com atualização,1.0,0.24419100354204776
+Memória-50 sem atualização,1.0,0.2596133372048006
+Memória-100 com atualização,1.0,0.2062728551116389
+Memória-100 sem atualização,1.0,0.29940213103051394

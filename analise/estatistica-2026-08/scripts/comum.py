@@ -141,6 +141,19 @@ def pares_fora_treino():
     k["mapa"] = k.mapa.astype(str)
     return k.reset_index(drop=True)
 
+def carregar_complemento(tipo):
+    """complemento_<tipo>.csv de codigo/robustez-2026-11 (make complemento && make juntar-complemento):
+    'congelada' (expansoes e caminho da memoria sem atualizacao), 'custo' (celulas das BFS de
+    atualizacao) ou 'otimo' (distancia BFS no mapa degradado, pares com id % 10 == 0)."""
+    caminho = DADOS_V2 / f"complemento_{tipo}.csv"
+    if not caminho.exists():
+        raise SystemExit(f"\nDado v2 não encontrado: {caminho}\n"
+                         f"Gere com `make complemento` e `make juntar-complemento` em codigo/robustez-2026-11/.\n")
+    df = pd.read_csv(caminho)
+    if FORA_TREINO and "id_problema" in df:
+        df = df.merge(pares_fora_treino(), on=["mapa", "semente", "id_problema"])
+    return df
+
 def carregar_robustez(cache=True):
     """Robustez deduplicada, com as colunas delta_* (fator de degradação pareado)."""
     if V2:

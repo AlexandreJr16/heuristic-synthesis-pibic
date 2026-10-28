@@ -10,9 +10,10 @@ sintese_repetida.csv) são pré-requisito e se refazem com:
     for m in <17 mapas>; do ./verifica_reprocessamento $m 42; done
     ./sintese_repetida        # ~13-20 h
 
-Com --v2, roda so a analise do protocolo v2 (b1, ~3 min por recorte), duas vezes: todos os
+Com --v2, roda so a analise do protocolo v2 (b1 a b6, ~8 min por recorte), duas vezes: todos os
 pares (tabelas_v2/) e so os pares fora do treino do AG (tabelas_v2_fora_treino/). Precisa de
-dados/brutos/v2/ (ou HEURISTICAS_DADOS_V2) e, para a confere da linha de base, HEURISTICAS_DADOS.
+dados/brutos/v2/ (ou HEURISTICAS_DADOS_V2), dos complementos (make complemento e make
+juntar-complemento em codigo/robustez-2026-11/) e, para o Dijkstra, de HEURISTICAS_DADOS.
 """
 import os, subprocess, sys, time
 from pathlib import Path
@@ -29,18 +30,21 @@ ETAPAS = ["a11_pivos", "a10_descartes", "a3_estatico", "a2_ranking",
           "a4_a5_distribuicoes", "a6_subotimalidade", "a12_admissibilidade", "a7_memoria_pareto",
           "a8_formulas", "a9_reprodutibilidade", "a1_tese", "a1b_delta30", "a0_reprocessamento"]
 
+# b2 e b6 leem b1_global/b1_por_mapa, b5 le b1_interacao
+ETAPAS_V2 = ["b1_protocolo_v2", "b4_mecanismo", "b5_modelo_misto", "b6_conferencias", "b2_qualidade_caminho",
+             "b3_equilibrio"]
 RECORTES_V2 = {"tabelas_v2": {"PROTOCOLO": "v2"},
                "tabelas_v2_fora_treino": {"PROTOCOLO": "v2", "FORA_TREINO": "1"}}
 
 def main_v2():
     falhas = []
     for saida, amb in RECORTES_V2.items():
-        t = time.time()
-        print(f"\n{'='*70}\n>>> b1_protocolo_v2 -> {saida}\n{'='*70}", flush=True)
-        r = subprocess.run([str(PY_), str(AQUI / "b1_protocolo_v2.py")], cwd=RAIZ,
-                           env={**os.environ, **amb})
-        print(f"<<< {saida}: {'ok' if r.returncode == 0 else 'FALHOU'} ({time.time()-t:.0f}s)")
-        if r.returncode: falhas.append(saida)
+        for e in ETAPAS_V2:
+            t = time.time()
+            print(f"\n{'='*70}\n>>> {e} -> {saida}\n{'='*70}", flush=True)
+            r = subprocess.run([str(PY_), str(AQUI / f"{e}.py")], cwd=RAIZ, env={**os.environ, **amb})
+            print(f"<<< {e} -> {saida}: {'ok' if r.returncode == 0 else 'FALHOU'} ({time.time()-t:.0f}s)")
+            if r.returncode: falhas.append(f"{e} -> {saida}")
     if falhas:
         print("FALHARAM:", ", ".join(falhas)); sys.exit(1)
     print("v2 reproduzido.")

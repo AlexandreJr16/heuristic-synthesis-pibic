@@ -1,0 +1,11 @@
+,,ganho,ganho,mapas_pior_que_manhattan,mapas_pior_que_manhattan
+celulas,,com_colapso,sem_colapso,com_colapso,sem_colapso
+estrategia,regime,,,,
+Memória-10,com_atualizacao,4.77013796758995,5.044796307811905,0.0,0.0
+Memória-10,sem_atualizacao,1.2763239408366316,1.305095244769572,1.0,0.0
+Memória-100,com_atualizacao,8.577135272422128,8.577135272422128,0.0,0.0
+Memória-100,sem_atualizacao,1.438325446104333,1.438325446104333,0.0,0.0
+Memória-20,com_atualizacao,6.16299541370307,6.16299541370307,0.0,0.0
+Memória-20,sem_atualizacao,1.367407669555819,1.367407669555819,0.0,0.0
+Memória-50,com_atualizacao,6.446561864259757,7.670046715673991,0.0,0.0
+Memória-50,sem_atualizacao,1.3205648400361296,1.4168050827859444,2.0,0.0

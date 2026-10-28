@@ -1,0 +1,17 @@
+metrica,regime,modelo,teste,estatistica,gl,p,convergiu,metodo,var_mapa,var_semente,var_estrategia_mapa,var_residuo,avisos,gl_den,eta2_parcial,n_mapas
+delta,com_atualizacao,misto_padrao,LRT,660.8115942480654,60.0,4.489389010353373e-102,True,lbfgs,0.018343074160876115,0.0013305382138943025,,0.03471269110356027,The MLE may be on the boundary of the parameter space.,,,
+delta,com_atualizacao,misto_ampliado,LRT,1045.9203821538176,60.0,6.238088249808514e-180,True,lbfgs,0.015729586346273562,0.0014795598751031367,0.015893092627297115,0.021316460206807785,The MLE may be on the boundary of the parameter space.,,,
+delta,com_atualizacao,anova_rm_mapa,F,26.97445597806166,20.0,2.5403574718781697e-55,True,,,,,,,300.0,0.642639799600026,16.0
+delta,com_atualizacao,ols_permutacao_b1,F (permutação),30.50765439648408,,0.0049751243781094,True,,,,,,,,,
+delta,sem_atualizacao,misto_padrao,LRT,158.8878815518401,60.0,7.010741348327728e-11,True,lbfgs,0.04282410389960456,0.0104139054134562,,0.11496923010404124,,,,
+delta,sem_atualizacao,misto_ampliado,LRT,231.71760532264307,60.0,5.176808420163014e-22,True,lbfgs,0.03542971392530605,0.01081874978471981,0.043384266045684,0.0784159361378987,,,,
+delta,sem_atualizacao,anova_rm_mapa,F,17.195806253482484,20.0,9.292215338346479e-39,True,,,,,,,300.0,0.5341008117050178,16.0
+delta,sem_atualizacao,ols_permutacao_b1,F (permutação),5.4473990844967295,,0.0049751243781094,True,,,,,,,,,
+absoluta,com_atualizacao,misto_padrao,LRT,191.96766366480006,48.0,4.073583354224311e-19,True,lbfgs,0.03138844990232221,0.01616921781012463,,0.11687974643414663,,,,
+absoluta,com_atualizacao,misto_ampliado,LRT,312.85426217510394,48.0,1.547962217627634e-40,True,lbfgs,0.020000350431027582,0.016784001577892328,0.05663820285705031,0.07096329541138656,,,,
+absoluta,com_atualizacao,anova_rm_mapa,F,28.666440114811042,16.0,9.958892923570714e-47,True,,,,,,,240.0,0.656486767399383,16.0
+absoluta,com_atualizacao,ols_permutacao_b1,F (permutação),10.077400583778276,,0.0049751243781094,True,,,,,,,,,
+absoluta,sem_atualizacao,misto_padrao,LRT,187.80303564082715,48.0,1.986866567473982e-18,True,lbfgs,0.008313451401030134,0.002804317346469398,,0.04200442276062482,The MLE may be on the boundary of the parameter space.,,,
+absoluta,sem_atualizacao,misto_ampliado,LRT,278.2453809603976,48.0,3.4929917236641e-34,True,lbfgs,0.004892202759746246,0.0029893957181456347,0.017113711247744405,0.028126676770111554,The MLE may be on the boundary of the parameter space.,,,
+absoluta,sem_atualizacao,anova_rm_mapa,F,8.50319812746762,16.0,3.1766460930510256e-16,True,,,,,,,240.0,0.3617889821355902,16.0
+absoluta,sem_atualizacao,ols_permutacao_b1,F (permutação),7.085872308750043,,0.0049751243781094,True,,,,,,,,,
