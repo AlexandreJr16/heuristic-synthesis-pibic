@@ -15,6 +15,12 @@
 As outras duas árvores de código são posteriores e **não** participaram dos resultados
 publicados. Se você quiser reproduzir o experimento, é a de março que você deve compilar.
 
+**Exceção, a partir de novembro/2026: a robustez v2.** `codigo/robustez-2026-11/` re-executa
+só a parte de robustez, com um gerador de degradação corrigido, e gera dados novos em
+`dados/brutos/v2/`. Esses dados vão para o artigo do JBCS, não para o relatório. Síntese,
+fórmulas e linha de base continuam sendo as de março (a linha de base é recalculada e conferida
+contra elas).
+
 ---
 
 ## A linha do tempo
@@ -83,6 +89,26 @@ mar/2026        jun/2026              ago/2026                       ago/2026
   alteração deliberada:** as sementes do algoritmo genético viraram parâmetro explícito, em vez
   de virem de `std::random_device`. Sem essa alteração a análise A9 (reprodutibilidade da
   síntese) seria impossível. Ver `docs/04-problemas-conhecidos.md`, P5.
+
+### Novembro/2026 — a robustez com o protocolo de degradação v2
+
+- **Código:** `codigo/robustez-2026-11/` (branch `robustez-v2`). Usa o `src/` de
+  `codigo/medicoes-2026-08/`, cujos `map.cpp`, `heuristics.cpp` e `astar.cpp` são byte a byte
+  os de março (`make confere-src`).
+- **Por quê:** o laço de robustez de março perdia de 89% a 99% dos pares a 30% e escolhia os
+  pares só nesse nível (P2). O gerador v2 usa os mesmos mecanismos e sorteios de `map.cpp`, mas
+  nunca bloqueia origem ou destino de par (R1) nem divide uma componente (R2), e registra a meta
+  atingida (R3). Requisitos em `docs/especificacoes/degradacao-conectividade/spec.md`.
+- **Não sintetiza nada.** As fórmulas vêm de `dados/resultados_sintese.csv` (P7: `arena` usa a
+  primeira linha). A linha de base no mapa original é recalculada e o programa **aborta** se ela
+  não bater com `resultados_base.csv` de março.
+- **Produziu** (fora do Git, ~0,9 GB):
+  - `dados/brutos/v2/resultados_robustez_v2.csv`: as colunas de `resultados_robustez.csv`, mais
+    `exp_deg_mem_congelado` e `em_treino`;
+  - `dados/brutos/v2/degradacao_v2_resumo.csv`: % atingido, células recusadas por R1 e R2,
+    pares válidos v2 e v1 e colapso de pivô, por mapa × semente × padrão × nível. Uma cópia é
+    versionada em `analise/estatistica-2026-08/medicoes/`.
+- **Decisões e números:** `docs/06-protocolo-v2.md`.
 
 ---
 

@@ -47,6 +47,15 @@ que a interação não é artefato de seleção, mas não recupera a comparabili
 
 Corrigir exigiria reinstrumentar o laço de seleção e **re-executar toda a robustez**.
 
+> ✅ **Resolvido no protocolo v2 (novembro/2026).** A robustez foi re-executada em
+> `codigo/robustez-2026-11/`, com os requisitos de
+> [`especificacoes/degradacao-conectividade/spec.md`](especificacoes/degradacao-conectividade/spec.md):
+> os pares são validados **em cada nível** e o gerador nunca bloqueia origem ou destino (R1) nem
+> divide uma componente (R2). Com isso, os pares válidos são todos os conectados no mapa original,
+> nos três níveis e nos cinco padrões: a população é a mesma e as magnitudes de δ passam a ser
+> comparáveis entre padrões. O texto acima continua valendo para os dados de março. Decisões e
+> números em [`06-protocolo-v2.md`](06-protocolo-v2.md).
+
 ## 🔴 P3 — `tempo_ms` não é uma medição confiável de desempenho
 
 Medição única por instância, sem aquecimento, sem repetições, sem isolamento de CPU nem
@@ -153,7 +162,7 @@ medido só em agosto (A7, E8).
 |---|---|
 | Comparar **estratégias entre si**, no mesmo mapa e no mesmo par | ✅ desenho pareado, limpo |
 | Comparar **expansões de nós** | ✅ determinístico e reprodutível |
-| Comparar **magnitudes de δ entre padrões de degradação** | ❌ populações não aninhadas (P2) |
+| Comparar **magnitudes de δ entre padrões de degradação** | ❌ populações não aninhadas (P2); ✅ nos dados v2 (`06-protocolo-v2.md`) |
 | Sustentar conclusão em **tempo de execução** | ❌ instrumentação inadequada (P3) |
 | Tratar as fórmulas da Tabela 3 como **"a" fórmula de cada mapa** | ❌ amostra de tamanho 1 (P5) |
 | Dizer que a memória **não é reprocessada** sob degradação | ❌ o código a reprocessa (P1) |

@@ -138,6 +138,31 @@ uma pasta que os contenha.
 > depois corrigiu (ver `03-achados-estatisticos.md`, A3). Eles estão preservados para
 > rastreabilidade, não para uso.
 
+## 5. Re-executar a robustez com o protocolo v2 (novembro/2026)
+
+Refaz só a robustez, com o gerador que protege os extremos dos pares (R1) e preserva a
+conectividade (R2). Não sintetiza nada: as fórmulas vêm de `dados/resultados_sintese.csv`, e a
+linha de base é recalculada e **conferida contra `resultados_base.csv` de março** (aborta se não
+bater). Por isso precisa dos dados brutos de março (seção 3.1).
+
+```fish
+cd codigo/robustez-2026-11
+make                                                     # g++ -O2 -std=c++17
+env HEURISTICAS_DADOS=$HOME/Downloads make teste         # R1, R2, cumulativa, determinismo, linha de base
+env HEURISTICAS_DADOS=$HOME/Downloads make piloto        # den501d, 5 sementes, ~3 min
+env HEURISTICAS_DADOS=$HOME/Downloads make rodar P=6     # 85 jobs, ~1h30 a 2h com 6 processos
+make juntar                                              # dados/brutos/v2/*.csv + sha256
+```
+
+- Troque `$HOME/Downloads` pela pasta onde estão os CSVs de março. No fish, use `$HOME`, não `~`:
+  o fish não expande `~` depois do `=`, e o programa aborta sem achar o CSV.
+- **Parar com `Ctrl-C` é seguro.** Cada job (mapa, semente) só grava o arquivo final quando
+  termina; rodar `make rodar` de novo pula os prontos e refaz os interrompidos. Não altere o
+  código entre as sessões.
+- O resultado é **determinístico**: mesma semente, mesmo grid e mesmas expansões. Só as colunas
+  de tempo mudam entre execuções (P3).
+- Detalhes em `codigo/robustez-2026-11/README.md`; decisões e números em `06-protocolo-v2.md`.
+
 ---
 
 ## Verificação rápida de que tudo está no lugar
