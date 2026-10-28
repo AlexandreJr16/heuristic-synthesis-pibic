@@ -4,6 +4,7 @@
 #    robustez_v2        um (mapa, semente): linha de base conferida contra marco,
 #                       degradacao v2 (R1, R2, R3) e A* nos tres niveis
 #    testa_degradacao   fidelidade a map.cpp, R1, R2, cumulatividade e determinismo
+#    conta_pivos        pivos que caem em celula bloqueada, v1 e v2
 #
 #  Usa o src/ de codigo/medicoes-2026-08 (map, heuristics e astar sao byte a byte
 #  os de marco; `make confere-src` prova). Rode a partir DESTE diretorio.
@@ -23,9 +24,9 @@ MAPAS_POR_CUSTO = brc202d den602d brc100d brc201d brc101d den500d den000d den005
         brc000d brc203d arena2 hrt201n den501d den012d lak506d den011d arena
 PARTES = $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/partes/$(m)_$(s)))
 
-all: robustez_v2 testa_degradacao
+all: robustez_v2 testa_degradacao conta_pivos
 
-robustez_v2 testa_degradacao: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
+robustez_v2 testa_degradacao conta_pivos: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
 	$(CXX) -O2 -std=c++17 -o $@ $*.cpp degradacao_v2.cpp $(BASE)
 
 confere-src:
@@ -56,5 +57,15 @@ juntar:
 	cp $(SAIDA)/degradacao_v2_resumo.csv ../../analise/estatistica-2026-08/medicoes/
 	cd $(SAIDA) && sha256sum resultados_robustez_v2.csv degradacao_v2_resumo.csv
 
+# um (mapa, semente) por processo; saida versionada em analise/estatistica-2026-08/medicoes
+pivos: conta_pivos
+	mkdir -p $(SAIDA)/pivos
+	echo "mapa,semente,protocolo,padrao,nivel,n_pivos,pivos,pivos_distintos,pivos_bloqueados,bloqueados_sem_vizinho" \
+	  > ../../analise/estatistica-2026-08/medicoes/pivos_bloqueados_v2.csv
+	for m in $(MAPAS); do for s in $(SEMENTES); do echo $$m $$s; done; done | \
+	  xargs -P $(P) -n 2 sh -c './conta_pivos $$0 $$1 > $(SAIDA)/pivos/$$0_$$1.csv' && \
+	for m in $(MAPAS); do for s in $(SEMENTES); do cat $(SAIDA)/pivos/$${m}_$$s.csv; done; done \
+	  >> ../../analise/estatistica-2026-08/medicoes/pivos_bloqueados_v2.csv
+
 clean:
-	rm -f robustez_v2 testa_degradacao
+	rm -f robustez_v2 testa_degradacao conta_pivos

@@ -10,9 +10,10 @@ codigo/medicoes-2026-08/medir_pivos
 codigo/medicoes-2026-08/verifica_reprocessamento
 codigo/medicoes-2026-08/sintese_repetida
 codigo/medicoes-2026-08/sintese_worker
-# Os dois programas da robustez v2, compilados em codigo/robustez-2026-11/
+# Os programas da robustez v2, compilados em codigo/robustez-2026-11/
 codigo/robustez-2026-11/robustez_v2
 codigo/robustez-2026-11/testa_degradacao
+codigo/robustez-2026-11/conta_pivos
 
 # --- Python ------------------------------------------------------------------
 __pycache__/
