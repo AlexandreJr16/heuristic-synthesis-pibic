@@ -180,6 +180,7 @@ set -x HEURISTICAS_DADOS <pasta com os CSVs brutos>
 | [03-achados-estatisticos](docs/03-achados-estatisticos.md) | os resultados da reanálise, análise por análise |
 | [04-problemas-conhecidos](docs/04-problemas-conhecidos.md) | bugs e limitações, com o impacto de cada um |
 | [05-como-reproduzir](docs/05-como-reproduzir.md) | comandos exatos |
+| [06-protocolo-v2](docs/06-protocolo-v2.md) | a robustez refeita sem perder pares (nov/2026): decisões, verificações e resultados |
 | [dados/MANIFESTO](dados/MANIFESTO.md) | esquema dos dados e onde eles estão |
 
 📄 **[Relatório final (PDF)](relatorio/RelatorioFinal_PIBIC_2025-2026_AlexandrePereiraSouzaJunior.pdf)**
