@@ -40,7 +40,13 @@ static vector<char> amostraTreino(int n) {
   return t;
 }
 
+// Divergencias conhecidas da formula na linha de base (P11): o valor exato cai num inteiro e o double
+// IEEE trunca 1 abaixo; o binario de marco (-ffast-math, outro GCC) nao. Mapa, id, v2 exp/caminho, marco exp/caminho
+static const vector<tuple<string, int, int, int, int, int>> DIVERGENCIAS_FORMULA = {
+    {"den602d", 440, 343, 190, 342, 190}, {"den602d", 711, 1069, 354, 1069, 352}, {"den602d", 2075, 2052, 975, 2052, 977}};
+
 // Compara expansoes e caminho com resultados_base.csv de marco (1a ocorrencia, P7); aborta se divergir
+// fora de DIVERGENCIAS_FORMULA ou se uma divergencia declarada nao aparecer
 static void confereMarco(const string &mapa, int semente, const vector<PerfData> &manh,
                          const vector<PerfData> &form, map<int, vector<PerfData>> &mem) {
   const char *d = getenv("HEURISTICAS_DADOS");
@@ -64,10 +70,17 @@ static void confereMarco(const string &mapa, int semente, const vector<PerfData>
     getline(ss, path, ',');
     marco.insert({{stoi(id), heur, stoi(n)}, {stoi(exp), stoi(path)}});
   }
-  int difs = 0;
+  int difs = 0, declaradas = 0, esperadas = 0;
+  for (auto &d : DIVERGENCIAS_FORMULA) esperadas += get<0>(d) == mapa;
   auto compara = [&](int i, const string &heur, int n, const PerfData &v) {
     auto it = marco.find({i, heur, n});
     if (it != marco.end() && it->second == make_pair(v.exp, v.path)) return;
+    if (it != marco.end() && heur == "formula" &&
+        count(DIVERGENCIAS_FORMULA.begin(), DIVERGENCIAS_FORMULA.end(),
+              make_tuple(mapa, i, v.exp, v.path, it->second.first, it->second.second))) {
+      declaradas++;
+      return;
+    }
     if (difs++ < 5)
       cerr << "  diverge: id=" << i << " " << heur << " n=" << n << " v2=" << v.exp << "/" << v.path
            << " marco=" << (it == marco.end() ? "ausente" : to_string(it->second.first) + "/" + to_string(it->second.second))
@@ -78,12 +91,14 @@ static void confereMarco(const string &mapa, int semente, const vector<PerfData>
     compara(i, "formula", 0, form[i]);
     for (int n : NUMPIVOS) compara(i, "memory", n, mem[n][i]);
   }
-  if (difs || marco.size() != manh.size() * 6) {
-    cerr << "LINHA DE BASE NAO BATE COM MARCO: " << difs << " divergencias, " << marco.size()
-         << " linhas de marco para " << manh.size() * 6 << " esperadas" << endl;
+  if (difs || declaradas != esperadas || marco.size() != manh.size() * 6) {
+    cerr << "LINHA DE BASE NAO BATE COM MARCO: " << difs << " divergencias, " << declaradas << " de " << esperadas
+         << " divergencias declaradas, " << marco.size() << " linhas de marco para " << manh.size() * 6
+         << " esperadas" << endl;
     exit(4);
   }
-  cerr << "  linha de base = marco (" << marco.size() << " linhas)" << endl;
+  cerr << "  linha de base = marco (" << marco.size() << " linhas"
+       << (esperadas ? ", " + to_string(declaradas) + " divergencias declaradas da formula, P11" : "") << ")" << endl;
 }
 
 int main(int argc, char **argv) {
