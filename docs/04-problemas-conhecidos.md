@@ -148,6 +148,18 @@ fórmulas que devolvem valores negativos, não há *clamping* para zero. Na prá
 (um `h` negativo só torna a busca mais parecida com Dijkstra), mas é uma imprecisão real.
 Ver `code_review.md`, ISSUE 4 e ISSUE 7.
 
+**Consequência medida em novembro/2026 (robustez v2).** O truncamento torna a fórmula sensível
+ao arredondamento quando o valor exato cai em cima de um inteiro. Ao recalcular a linha de base
+com o código de março em `double` IEEE (`-O2`), Manhattan e memória batem com
+`resultados_base.csv` nas 85 combinações mapa × semente, mas a fórmula do `den602d` diverge em
+**3 de 2.660 problemas** (ids 440, 711 e 2075, iguais nas 5 sementes): 1 expansão a mais ou 2
+células de caminho de diferença. Uma avaliação com as constantes decimais exatas reproduz março
+nos 2.660; recompilar com as flags de março (`-O3 -march=native -ffast-math`) no GCC atual não
+reproduz. O binário de março, de outro GCC, calculou mais perto do valor exato.
+`codigo/robustez-2026-11/robustez_v2.cpp` declara essas 3 divergências, com os valores dos dois
+lados, e aborta se aparecer outra ou se uma delas sumir. No v2, os δ usam a linha de base
+recalculada pelo próprio v2, então ficam internamente consistentes.
+
 ## 🟢 P12 — `bfsPivo` aloca a grade inteira por pivô
 
 Custo de memória **4,1× o teórico** (até 8,2×), chegando a 109 MB num único mapa com 100 pivôs.
