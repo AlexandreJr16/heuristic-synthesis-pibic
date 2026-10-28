@@ -6,6 +6,13 @@ Regras que valem para todo o pacote (ver plano):
   3. Normalizar por mapa antes de agrupar entre mapas.
   4. `arena` está duplicado nos CSVs (execução repetida em modo append) e é deduplicado
      em toda carga; a duplicata é insumo exclusivo do A9.
+
+Protocolo v2 (novembro/2026, `codigo/robustez-2026-11/`), por variável de ambiente:
+  PROTOCOLO=v2   a robustez vem de resultados_robustez_v2.csv (HEURISTICAS_DADOS_V2,
+                 padrão dados/brutos/v2) e a saída vai para tabelas_v2/ e figuras_v2/;
+  FORA_TREINO=1  só os pares com em_treino == 0 (fora da amostra de aptidão do AG),
+                 com saída em tabelas_v2_fora_treino/ e figuras_v2_fora_treino/.
+Sem as variáveis, nada muda: tabelas/ e figuras/ continuam as de agosto.
 """
 import os
 from pathlib import Path
@@ -17,9 +24,15 @@ SEED = 20260820
 RAIZ = Path(__file__).resolve().parent.parent   # analise/estatistica-2026-08/
 REPO = RAIZ.parent.parent                       # raiz do repositório
 
+V2 = os.environ.get("PROTOCOLO") == "v2"
+FORA_TREINO = os.environ.get("FORA_TREINO") == "1"
+if FORA_TREINO and not V2:
+    raise SystemExit("FORA_TREINO=1 exige PROTOCOLO=v2 (os dados de março não têm em_treino)")
+SUFIXO = ("_v2" if V2 else "") + ("_fora_treino" if FORA_TREINO else "")
+
 MEDICOES = RAIZ / "medicoes"
-TABELAS = RAIZ / "tabelas"
-FIGURAS = RAIZ / "figuras"
+TABELAS = RAIZ / f"tabelas{SUFIXO}"
+FIGURAS = RAIZ / f"figuras{SUFIXO}"
 MAPAS_DIR = REPO / "maps"
 
 # Os 4 CSVs brutos somam ~170 MB e NÃO ficam versionados no Git; eles vivem no
@@ -29,6 +42,7 @@ MAPAS_DIR = REPO / "maps"
 #      set -x HEURISTICAS_DADOS ~/Drive/PIBIC/02-dados-brutos   (fish)
 # Ver dados/MANIFESTO.md para o esquema e os checksums de cada arquivo.
 DADOS = Path(os.environ.get("HEURISTICAS_DADOS", REPO / "dados" / "brutos"))
+DADOS_V2 = Path(os.environ.get("HEURISTICAS_DADOS_V2", REPO / "dados" / "brutos" / "v2"))
 
 
 def _csv_bruto(nome):
@@ -91,14 +105,54 @@ def base_larga():
 
 def base_larga_cache():
     p = MEDICOES / "base_larga.pkl"
-    return pd.read_pickle(p) if p.exists() else base_larga()
+    w = pd.read_pickle(p) if p.exists() else base_larga()
+    if FORA_TREINO:
+        w = w.merge(pares_fora_treino(), on=["mapa", "semente", "id_problema"])
+    return w
 
 def carregar_ratio():
     df = _csv_bruto("resultados_ratio.csv")
     return _dedup(df, ["mapa", "semente", "id_problema"])
 
+def _robustez_v2():
+    """resultados_robustez_v2.csv sem as colunas de tempo (P3), com tipos compactos e cache."""
+    p = DADOS_V2 / "robustez_v2.pkl"
+    if p.exists():
+        return pd.read_pickle(p)
+    caminho = DADOS_V2 / "resultados_robustez_v2.csv"
+    if not caminho.exists():
+        raise SystemExit(f"\nDado v2 não encontrado: {caminho}\n"
+                         f"Gere com `make rodar` e `make juntar` em codigo/robustez-2026-11/,\n"
+                         f"ou exporte HEURISTICAS_DADOS_V2. Ver dados/MANIFESTO.md.\n")
+    inteiras = [f"{t}_{q}_{s}" for t in ("exp", "path") for q in ("orig", "deg")
+                for s in ("manh", "form", "mem")] + ["exp_deg_mem_congelado"]
+    tipos = {"mapa": "category", "tipo_degradacao": "category", "semente": "int16",
+             "id_problema": "int32", "n_pivos": "int16", "porcentagem_bloqueio": "float64",
+             "em_treino": "int8", **{c: "int32" for c in inteiras}}
+    df = pd.read_csv(caminho, usecols=list(tipos), dtype=tipos)
+    df.to_pickle(p)
+    return df
+
+def pares_fora_treino():
+    """(mapa, semente, id_problema) com em_treino == 0, a partir dos dados v2."""
+    r = _robustez_v2()
+    k = r[(r.n_pivos == 10) & (r.tipo_degradacao == "Linear") & (r.porcentagem_bloqueio == 0.1)]
+    k = k[k.em_treino == 0][["mapa", "semente", "id_problema"]]
+    k["mapa"] = k.mapa.astype(str)
+    return k.reset_index(drop=True)
+
 def carregar_robustez(cache=True):
     """Robustez deduplicada, com as colunas delta_* (fator de degradação pareado)."""
+    if V2:
+        df = _robustez_v2()
+        if FORA_TREINO:
+            df = df[df.em_treino == 0].reset_index(drop=True)
+        df["mapa"] = df.mapa.astype(str)
+        df["tipo_degradacao"] = df.tipo_degradacao.astype(str)
+        for suf in ("manh", "form", "mem"):
+            df[f"delta_{suf}"] = df[f"exp_deg_{suf}"] / df[f"exp_orig_{suf}"].clip(lower=1)
+        df["delta_mem_congelado"] = df.exp_deg_mem_congelado / df.exp_orig_mem.clip(lower=1)
+        return df
     p = MEDICOES / "robustez.pkl"
     if cache and p.exists():
         return pd.read_pickle(p)
