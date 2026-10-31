@@ -1,0 +1,8 @@
+cenario,pares_conferidos,divergentes,rho_alvo_cpp_menos_csv_max
+original (todos os pares conectados),23210,0,2.220446049250313e-16
+"Linear 30%, semente 42",23210,0,2.220446049250313e-16
+"Organic 30%, semente 42",23210,0,2.220446049250313e-16
+"Radial 30%, semente 42",23210,0,2.220446049250313e-16
+"Sparse 30%, semente 42",23210,0,2.220446049250313e-16
+"Stochastic 30%, semente 42",23210,0,2.220446049250313e-16
+total,139260,0,2.220446049250313e-16

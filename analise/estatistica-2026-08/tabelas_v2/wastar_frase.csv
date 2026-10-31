@@ -1,0 +1,2 @@
+razao_original,razao_degradado,mapas_fora_da_curva,frase
+1.377257316602358,1.2258308419787054,1,"Com caminhos de qualidade igual, a fórmula expande 1,38× menos (mediana entre 15 mapas; de 1,15× a 3,51×) que o WA* no mapa original e 1,23× menos (mediana entre 15 mapas; de 1,09× a 2,57×) no mapa degradado; em 1 mapa nem a GBFS chega ao ρ da fórmula (fora da curva)."

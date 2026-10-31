@@ -50,6 +50,7 @@ set -x HEURISTICAS_DADOS ~/caminho/para/02-dados-brutos   # para o Dijkstra e o 
 | `b4_*` | mecanismo: Spearman entre desvio do caminho e aumento de expansões, aumento por faixa de desvio |
 | `b5_*` | interação estratégia × padrão por modelo misto e ANOVA de medidas repetidas |
 | `b6_*` | conferências: ganho estático com e sem colapso de pivô contra agosto; memória pior que a Manhattan |
+| `wastar_*` | controle (b7, só em `tabelas_v2/`, pares fora do treino): fórmula contra Weighted A\* com ρ casado; conferência w = 1, calibração do peso, vence/empata/perde/fora da curva, Wilcoxon, δ de Cliff e IC |
 
 ## Estrutura
 
