@@ -56,7 +56,7 @@ Exportadas para `figuras/`, em PNG (300 dpi) e PDF:
 | `mapas_por_perfil` | 1 |
 | `ganho_estatico` | 2 |
 | `exemplo_linear_den501d_v1_v2` | 3 |
-| `deformacao_por_padrao`, `exemplo_radial_den501d_v1_v2` | 4 |
+| `deformacao_por_padrao`, `exemplo_radial_den501d_v1_v2`, `padroes_v2_30` | 4 |
 | `ganho_por_nivel` | 5 |
 | `delta_contra_ganho` | 6 |
 | `consistencia_por_mapa` | 7 |

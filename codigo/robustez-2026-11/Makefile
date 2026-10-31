@@ -107,10 +107,9 @@ juntar-wastar-calibra:
 	for t in w1 calibracao pesos orig; do \
 	  awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(SAIDA)/wastar/$(m)_$$t.csv) > $(SAIDA)/wastar_$$t.csv || exit 1; done
 
-# grids do den501d s42 a 30% (linear e radial) para analise/notebook-2026-10
+# grids do den501d s42 a 30% (os cinco padroes) para analise/notebook-2026-10
 grids: exporta_grid
-	./exporta_grid den501d 42 Linear $(SAIDA)/cache/grids
-	./exporta_grid den501d 42 Radial $(SAIDA)/cache/grids
+	for p in Linear Organic Radial Sparse Stochastic; do ./exporta_grid den501d 42 $$p $(SAIDA)/cache/grids || exit 1; done
 
 clean:
 	rm -f robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2
