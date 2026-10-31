@@ -207,8 +207,8 @@ for cen in PRINC:
         d = cliffs_delta(s.exp_formula, s.exp_cmp)
         drho = s.rho_formula - s.rho_cmp
         est.append(dict(cenario=cen, recorte=recorte, n_mapas=len(s),
-                        razao_mediana=razao.median(), razao_min=razao.min(), razao_max=razao.max(),
                         razao_media_geometrica=media_geometrica(razao), ic95_bca_inf=lo, ic95_bca_sup=hi,
+                        razao_mediana=razao.median(), razao_min=razao.min(), razao_max=razao.max(),
                         mapas_formula_expande_menos=int((razao > 1).sum()),
                         wilcoxon_p=wilcoxon(s.exp_formula, s.exp_cmp).pvalue,
                         cliff_delta=d, magnitude=magnitude_cliff(d),
@@ -222,19 +222,23 @@ print(EST.round(4).to_string(index=False))
 
 # ---------------------------------------------------------------- 7. a frase
 e = EST[EST.recorte == "rho casado (w*)"].set_index("cenario")
+# estatistica-padrao do artigo: media geometrica nos mapas com IC 95% BCa; mediana e intervalo como apoio
 def trecho(cen):
     r = e.loc[cen]
-    x = r.razao_mediana
+    x = r.razao_media_geometrica
     return (f"{num(x)}× menos" if x >= 1 else f"{num(1 / x)}× mais") + \
-        f" (mediana entre {int(r.n_mapas)} mapas; de {num(r.razao_min)}× a {num(r.razao_max)}×)"
+        f" (média geométrica entre {int(r.n_mapas)} mapas, IC 95% BCa {num(r.ic95_bca_inf)}–{num(r.ic95_bca_sup)}; " \
+        f"mediana {num(r.razao_mediana)}×, de {num(r.razao_min)}× a {num(r.razao_max)}×)"
 n_fora = int((PESOS.categoria == "fora_da_curva").sum())
 frase = (f"Com caminhos de qualidade igual, a fórmula expande {trecho('original')} que o WA* no mapa original e "
          f"{trecho('degradado (todos)')} no mapa degradado"
          + ("" if not n_fora else f"; em {n_fora} mapa{'s' if n_fora > 1 else ''} nem a GBFS chega ao ρ da fórmula "
             "(fora da curva).") + ("" if n_fora else "."))
 print("\n" + frase)
-pd.DataFrame([dict(razao_original=e.loc["original", "razao_mediana"],
-                   razao_degradado=e.loc["degradado (todos)", "razao_mediana"], mapas_fora_da_curva=n_fora,
+pd.DataFrame([dict(razao_original=e.loc["original", "razao_media_geometrica"],
+                   razao_degradado=e.loc["degradado (todos)", "razao_media_geometrica"],
+                   razao_mediana_original=e.loc["original", "razao_mediana"],
+                   razao_mediana_degradado=e.loc["degradado (todos)", "razao_mediana"], mapas_fora_da_curva=n_fora,
                    frase=frase)]).to_csv(TABELAS / "wastar_frase.csv", index=False)
 
 # ---------------------------------------------------------------- 8. figuras
@@ -307,8 +311,8 @@ cen = ["original", "10%", "20%", "30%"]
 for i, c in enumerate(cen):
     v = LARGO[(LARGO.cenario == c) & (LARGO.categoria != "fora_da_curva")].razao_wastar_formula.sort_values()
     ax.scatter(i + np.linspace(-0.15, 0.15, len(v)), v.values, s=6, color=COR_F, alpha=0.45, lw=0)
-    ax.plot([i, i], [v.min(), v.max()], color="black", lw=0.8)
-    ax.plot(i, v.median(), "D", color=COR_F, mec="black", ms=5)
+    ax.plot([i, i], [e.loc[c, "ic95_bca_inf"], e.loc[c, "ic95_bca_sup"]], color="black", lw=1)
+    ax.plot(i, e.loc[c, "razao_media_geometrica"], "D", color=COR_F, mec="black", ms=5)
 ax.axhline(1, color="0.5", lw=0.6, ls="--")
 ax.set_yscale("log")
 eixo_log(ax, "×")
@@ -318,4 +322,6 @@ r_deg = e.loc["degradado (todos)", "razao_mediana"]
 vmin = LARGO[LARGO.cenario.isin(cen) & (LARGO.categoria != "fora_da_curva")].razao_wastar_formula.min()
 ax.set_title((f"A vantagem sobre o WA* com o mesmo ρ encolhe com a\ndegradação, mas fica acima de 1× em todos os mapas"
               if vmin > 1 else f"No mapa degradado o WA* com o mesmo ρ\nalcança a fórmula em algum mapa"))
+ax.text(0, -0.2, "losango: média geométrica nos mapas; barra: IC 95% BCa; pontos: um por mapa",
+        transform=ax.transAxes, fontsize=6, color="0.35", va="top")
 salvar(fig, "wastar_degradado", FIGURAS)

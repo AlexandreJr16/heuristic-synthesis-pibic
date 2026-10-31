@@ -427,20 +427,24 @@ fórmula). A GBFS expande mais que a fórmula em todos os 17 mapas (de 1,01× a 
 Por padrão (níveis agregados): 15 / 0 / 0 / 1 em todos. Por padrão × nível, os únicos empates são
 `Linear` 20% (1) e `Linear` 30% (2).
 
-| Expansões WA\* (w\*) ÷ fórmula, 15 mapas | mediana [mín; máx] | média geom. [IC 95% BCa] | Wilcoxon p | δ de Cliff |
-|---|---|---|---|---|
-| original | 1,38 [1,15; 3,51] | 1,55 [1,37; 1,93] | 6,1·10⁻⁵ | −0,46 (médio) |
-| degradado 10% | 1,27 [1,11; 2,83] | 1,39 [1,26; 1,67] | 6,1·10⁻⁵ | −0,46 (médio) |
-| degradado 20% | 1,21 [1,09; 2,55] | 1,33 [1,21; 1,57] | 6,1·10⁻⁵ | −0,45 (médio) |
-| degradado 30% | 1,17 [1,06; 2,35] | 1,27 [1,17; 1,49] | 6,1·10⁻⁵ | −0,36 (médio) |
-| degradado, todos | 1,23 [1,09; 2,57] | 1,33 [1,22; 1,58] | 6,1·10⁻⁵ | −0,44 (médio) |
+| Expansões WA\* (w\*) ÷ fórmula, 15 mapas | média geométrica | IC 95% BCa | mediana | intervalo entre os mapas | Wilcoxon p | δ de Cliff |
+|---|---|---|---|---|---|---|
+| original | **1,55** | [1,37; 1,93] | 1,38 | 1,15–3,51 | 6,1·10⁻⁵ | −0,46 (médio) |
+| degradado 10% | **1,39** | [1,26; 1,67] | 1,27 | 1,11–2,83 | 6,1·10⁻⁵ | −0,46 (médio) |
+| degradado 20% | **1,33** | [1,21; 1,57] | 1,21 | 1,09–2,55 | 6,1·10⁻⁵ | −0,45 (médio) |
+| degradado 30% | **1,27** | [1,17; 1,49] | 1,17 | 1,06–2,35 | 6,1·10⁻⁵ | −0,36 (médio) |
+| degradado, todos | **1,33** | [1,22; 1,58] | 1,23 | 1,09–2,57 | 6,1·10⁻⁵ | −0,44 (médio) |
+
+A estatística-padrão é a média geométrica nos mapas com IC 95% BCa (n = 15); a mediana e o intervalo
+entram como apoio.
 
 A fórmula expande menos que o WA\* com w\* nos 15 mapas, em todos os cenários (p = 6,1·10⁻⁵ é o menor
-possível do Wilcoxon exato com n = 15). Com o `brc100d` comparado à GBFS, n = 16: mediana 1,35× no
-original e 1,21× no degradado.
+possível do Wilcoxon exato com n = 15). Com o `brc100d` comparado à GBFS, n = 16: média geométrica
+1,51× [1,34; 1,90] no original e 1,31× [1,21; 1,55] no degradado.
 
-> Com caminhos de qualidade igual, a fórmula expande **1,38× menos** que o WA\* no mapa original
-> (mediana entre 15 mapas; de 1,15× a 3,51×) e **1,23× menos** no mapa degradado (de 1,09× a 2,57×).
+> Com caminhos de qualidade igual, a fórmula expande **1,55× menos** que o WA\* no mapa original
+> (média geométrica entre 15 mapas, IC 95% BCa 1,37–1,93) e **1,33× menos** no mapa degradado
+> (IC 1,22–1,58).
 > Em 1 mapa nem a GBFS chega ao ρ da fórmula (fora da curva).
 
 **O que enfraquece, e quanto.**
@@ -455,7 +459,7 @@ original e 1,21× no degradado.
   todos os cenários agregados, a fórmula expande menos que a GBFS, com ρ ≤ o dela: fica **abaixo da curva
   inteira**, qualquer que seja o peso. Por padrão × nível isso vale em 11 a 15
   mapas; os casos que faltam se concentram no `Linear` a 20–30%, os mesmos dos empates.
-- **A vantagem encolhe com a degradação** (1,38× → 1,17× a 30%), mas fica acima de 1× em todos os mapas e
+- **A vantagem encolhe com a degradação** (média geométrica 1,55× → 1,27× a 30%), mas fica acima de 1× em todos os mapas e
   níveis.
 - **`brc100d`:** fora da curva no original. No degradado, a GBFS passa a ter ρ pior que o da fórmula
   (1,107 contra 1,102) e continua expandindo 1,08× mais: lá a fórmula domina a GBFS. O mapa fica na
@@ -485,8 +489,9 @@ Figuras: `figuras_v2/wastar_curva_mapa_mediano` (`den012d`, o mapa de razão med
 - **O preço da fórmula (§8):** caminhos ~10% mais longos que o ótimo, no estático e no degradado.
 - **O mecanismo (§10):** a memória congelada perde em degrau assim que o caminho ótimo desvia; se o
   caminho não muda, ela não perde.
-- **A forma da fórmula vale mais que um peso (§13):** com o mesmo ρ, o WA\* expande 1,38× o que a fórmula
-  expande no original e 1,23× no degradado (mediana entre 15 mapas, todos a favor da fórmula); num 16º
+- **A forma da fórmula vale mais que um peso (§13):** com o mesmo ρ, o WA\* expande 1,55× o que a fórmula
+  expande no original e 1,33× no degradado (média geométrica entre 15 mapas, IC 95% BCa 1,37–1,93 e
+  1,22–1,58; todos os mapas a favor da fórmula); num 16º
   mapa nem a busca gulosa chega ao ρ da fórmula.
 
 ## 15. Limitações que continuam
