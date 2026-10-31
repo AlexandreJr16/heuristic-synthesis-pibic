@@ -62,3 +62,4 @@ Exportadas para `figuras/`, em PNG (300 dpi) e PDF:
 | `consistencia_por_mapa` | 7 |
 | `inversao_postos` | 8 |
 | `padroes_facetas`, `eta2_v1_v2` | 9 |
+| `wastar_controle` | 15 — fórmula contra Weighted A\* com o mesmo ρ |

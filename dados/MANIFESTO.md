@@ -200,6 +200,29 @@ versionado em `analise/estatistica-2026-08/medicoes/custo_atualizacao_v2.csv`.
 c3df7a6098e89e5a3c8a76fa9d14040e49c6b3183f9951350dcf9fb0c18dd068  complemento_otimo.csv
 ```
 
+### Controle com Weighted A\* (`make wastar-calibra`, `make wastar` e `make juntar-wastar`, 31/10/2026)
+
+`codigo/robustez-2026-11/wastar_v2`: WA\* (h = ⌊w · Manhattan⌋) e busca gulosa (GBFS, `w = inf`), com o
+peso calibrado por mapa para casar o ρ da fórmula nos pares de treino (ver `docs/06-protocolo-v2.md`, §13).
+Ficam em `dados/brutos/v2/`, fora do Git; `wastar_pesos.csv` e `wastar_calibracao.csv` são versionados em
+`analise/estatistica-2026-08/medicoes/` (o segundo como `wastar_calibracao_bruta.csv`).
+
+| Arquivo | Tamanho | Linhas (sem cabeçalho) | Conteúdo |
+|---|---|---|---|
+| `wastar_w1.csv` | 5,0 MB | 139.260 | WA\* com w = 1, todos os pares conectados do original (`semente = -1`) e os 5 padrões a 30% (semente 42): conferência contra a Manhattan |
+| `wastar_calibracao.csv` | 33 KB | 382 | cada peso testado (`papel`: manhattan, grade, ampliada, gbfs, bissecao) e a fórmula, em treino e fora do treino do original: pares, ρ, expansões (média geométrica), fração de ótimos |
+| `wastar_pesos.csv` | 4 KB | 17 | por mapa: categoria (casado, casado_gbfs, fora_da_curva), ρ alvo, w_inf, w_estrela, w_sup, ρ e expansões de cada um e da GBFS |
+| `wastar_orig.csv` | 2,1 MB | 67.220 | w_inf, w_estrela, w_sup e GBFS por par fora do treino, no original |
+| `wastar_aval.csv` | 319 MB | 5.041.500 | os mesmos pesos por par válido fora do treino × semente × padrão × nível |
+
+```
+edb5285b445b9ea3efee439b17bf5f4277cea246466ef79e92c55bf1cb326b33  wastar_w1.csv
+b570776c8d70f8e8e194a831ecd43cf14382f7e65bd9ea36917a6a8267d755ef  wastar_calibracao.csv
+27c27fa714e59428adc0e46e96fc766a791564baa4675231843a02a267986153  wastar_pesos.csv
+beecad08ae6a7e2c6186496d77c430be63d4cfd2fea79e2472fa7663c4d34e1a  wastar_orig.csv
+0a3b9900b09ec158f93298fe77123052e054d52285d0fa8d7ed003dcd6d71ebe  wastar_aval.csv
+```
+
 ---
 
 ## Duas armadilhas que já custaram caro

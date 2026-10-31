@@ -154,8 +154,11 @@ env HEURISTICAS_DADOS=$HOME/Downloads make rodar P=6     # 85 jobs, ~1h30 a 2h c
 make juntar                                              # dados/brutos/v2/*.csv + sha256
 make complemento P=6                                     # memória sem atualização, custo de atualizar, ótimo (~1 h)
 make juntar-complemento
+make wastar-calibra P=6                                  # Weighted A*: w = 1 conferido, calibracao do peso (~1 min)
+make wastar P=6                                          # Weighted A* e GBFS fora do treino, 85 jobs (~15 min)
+make juntar-wastar
 cd ../../analise/estatistica-2026-08
-env HEURISTICAS_DADOS=$HOME/Downloads .venv/bin/python scripts/run_all.py --v2   # b1 a b6, ~8 min
+env HEURISTICAS_DADOS=$HOME/Downloads .venv/bin/python scripts/run_all.py --v2   # b1 a b7, ~8 min
 ```
 
 O notebook `analise/notebook-2026-10/historia_v2.ipynb` conta a história a partir dessas tabelas

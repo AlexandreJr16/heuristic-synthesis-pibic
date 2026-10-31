@@ -384,7 +384,90 @@ Tabelas: `b5_modelo_misto.csv`, `b5_anovarm_<métrica>_<regime>.csv`.
   de colapso, nenhum mapa fica pior que a Manhattan (a Memória-10 sem atualização vai de 1,276× para
   1,305×; a Memória-50, de 1,321× para 1,417×).
 
-## 13. O que os números sustentam
+## 13. Controle: fórmula contra Weighted A* (`b7_wastar.py`)
+
+**Pergunta.** A fórmula ganha da Manhattan porque superestima: troca caminhos ~10% mais longos por menos
+expansões. O Weighted A\* (WA\*, h = w · Manhattan) faz a mesma troca sem aprender nada. Com caminhos de
+qualidade igual, a fórmula expande menos que o WA\*? Se sim, a forma dela vale mais que um peso; se não,
+a vantagem vem só da superestimação.
+
+**Método** (`codigo/robustez-2026-11/wastar_v2`, dados em `dados/brutos/v2/wastar_*.csv`).
+
+- **WA\*:** o `aStar` de março sem mudança, com h = ⌊w · Manhattan⌋ (o A\* só aceita h inteiro; o ⌊·⌋
+  mantém h ≤ w · h\* e, com w = 1, dá exatamente a Manhattan). O teto do WA\* (w → ∞) é a busca gulosa
+  (**GBFS**, f = h): uma cópia do `aStar` que só troca a prioridade, com o mesmo desempate (maior g) e sem
+  reabrir fechados.
+- **Conferência:** com w = 1, o WA\* reproduz as expansões e os caminhos da Manhattan já medidos em
+  **139.260 pares** (23.210 no original e 23.210 em cada padrão a 30%, semente 42): **0 divergências**.
+- **Calibração** (pares `em_treino == 1`, mapa original): ρ alvo = média geométrica de
+  caminho da fórmula ÷ ótimo. Grade w ∈ {1,1; 1,25; 1,5; 2; 3}, ampliada para 5 e 10 e, se preciso, até a
+  GBFS; bisseção entre os vizinhos que cercam o alvo até |Δρ| ≤ 0,005 (no máximo 8 iterações; com a GBFS
+  como teto, bisseção em 1/w). Ficam w\*, o cerco w_inf (ρ ≤ alvo) e w_sup (ρ ≥ alvo).
+- **Avaliação** (pares `em_treino == 0`; o `arena` não tem nenhum, então n = 16): original e os 5 padrões ×
+  3 níveis × 5 sementes do v2, com os pesos fixos, como a fórmula, que também não é atualizada. Por mapa e
+  cenário, médias geométricas como no b2.
+- **Regra:** **vence** se a fórmula expande menos que o WA\* com w_sup; **perde** se expande mais que o
+  WA\* com w_inf; **empata** entre os dois. **Fora da curva:** nem a GBFS chega ao ρ da fórmula na
+  calibração, e a GBFS expande mais que ela. A fórmula faz uma troca entre expansões e qualidade de
+  caminho que nenhum peso uniforme sobre a Manhattan reproduz. Não conta como vitória nem como derrota.
+
+**Calibração.** 16 mapas casam o ρ (todos dentro da tolerância). w\* mediano 5,75, de 1,05 (`arena`) a 40
+(`brc202d`). 11 mapas precisaram de w > 3. Em 6 deles (`arena2`, `brc202d`, `den000d`, `den005d`,
+`den501d`, `den602d`), w = 10 ainda não chegava ao alvo e foi a GBFS que fechou o cerco. Só no `brc202d` o
+w_sup é a própria GBFS. Fora da curva: **`brc100d`** (ρ alvo 1,097; GBFS 1,093, com 1,12× as expansões da
+fórmula). A GBFS expande mais que a fórmula em todos os 17 mapas (de 1,01× a 2,21×).
+
+| Cenário (pares fora do treino) | vence | empata | perde | fora da curva |
+|---|---|---|---|---|
+| original | 15 | 0 | 0 | 1 |
+| degradado 10% | 15 | 0 | 0 | 1 |
+| degradado 20% | 15 | 0 | 0 | 1 |
+| degradado 30% | 15 | 0 | 0 | 1 |
+
+Por padrão (níveis agregados): 15 / 0 / 0 / 1 em todos. Por padrão × nível, os únicos empates são
+`Linear` 20% (1) e `Linear` 30% (2).
+
+| Expansões WA\* (w\*) ÷ fórmula, 15 mapas | mediana [mín; máx] | média geom. [IC 95% BCa] | Wilcoxon p | δ de Cliff |
+|---|---|---|---|---|
+| original | 1,38 [1,15; 3,51] | 1,55 [1,37; 1,93] | 6,1·10⁻⁵ | −0,46 (médio) |
+| degradado 10% | 1,27 [1,11; 2,83] | 1,39 [1,26; 1,67] | 6,1·10⁻⁵ | −0,46 (médio) |
+| degradado 20% | 1,21 [1,09; 2,55] | 1,33 [1,21; 1,57] | 6,1·10⁻⁵ | −0,45 (médio) |
+| degradado 30% | 1,17 [1,06; 2,35] | 1,27 [1,17; 1,49] | 6,1·10⁻⁵ | −0,36 (médio) |
+| degradado, todos | 1,23 [1,09; 2,57] | 1,33 [1,22; 1,58] | 6,1·10⁻⁵ | −0,44 (médio) |
+
+A fórmula expande menos que o WA\* com w\* nos 15 mapas, em todos os cenários (p = 6,1·10⁻⁵ é o menor
+possível do Wilcoxon exato com n = 15). Com o `brc100d` comparado à GBFS, n = 16: mediana 1,35× no
+original e 1,21× no degradado.
+
+> Com caminhos de qualidade igual, a fórmula expande **1,38× menos** que o WA\* no mapa original
+> (mediana entre 15 mapas; de 1,15× a 3,51×) e **1,23× menos** no mapa degradado (de 1,09× a 2,57×).
+> Em 1 mapa nem a GBFS chega ao ρ da fórmula (fora da curva).
+
+**O que enfraquece, e quanto.**
+
+- **O casamento de ρ escorrega fora do treino.** O cerco [w_inf, w_sup] é estreito (|Δρ| ≤ 0,005), e o ρ
+  da fórmula nos pares novos sai dele em 8 dos 15 mapas no original (em 5 fica acima de w_sup). A
+  diferença de ρ fórmula − WA\*(w\*) tem mediana +0,004 no original (Wilcoxon p = 0,64) e cresce com a
+  degradação: +0,005, +0,009 e +0,010 a 10, 20 e 30% (p = 0,11; 0,04; 0,06). No degradado, então, parte da
+  vantagem é comprada com caminhos um pouco piores que os do WA\*. **Isso não muda a conclusão:** a
+  expansão do WA\* cai com w (uma exceção de 0,2%, `den005d` entre w = 10,625 e 11,25). A GBFS é o ponto
+  de menos expansões em todas as curvas da calibração e em todos os cenários avaliados. E nos 15 mapas, em
+  todos os cenários agregados, a fórmula expande menos que a GBFS, com ρ ≤ o dela: fica **abaixo da curva
+  inteira**, qualquer que seja o peso. Por padrão × nível isso vale em 11 a 15
+  mapas; os casos que faltam se concentram no `Linear` a 20–30%, os mesmos dos empates.
+- **A vantagem encolhe com a degradação** (1,38× → 1,17× a 30%), mas fica acima de 1× em todos os mapas e
+  níveis.
+- **`brc100d`:** fora da curva no original. No degradado, a GBFS passa a ter ρ pior que o da fórmula
+  (1,107 contra 1,102) e continua expandindo 1,08× mais: lá a fórmula domina a GBFS. O mapa fica na
+  categoria definida pela calibração.
+- **⌊w · Manhattan⌋:** o arredondamento discretiza h. É o mesmo para todos os pesos e não afeta w = 1.
+
+Tabelas: `wastar_conferencia_w1.csv`, `wastar_calibracao.csv`, `wastar_avaliacao.csv`, `wastar_decisao.csv`,
+`wastar_decisao_contagem.csv`, `wastar_fora_da_curva.csv`, `wastar_estatistica.csv`, `wastar_frase.csv`.
+Figuras: `figuras_v2/wastar_curva_mapa_mediano` (`den012d`, o mapa de razão mediana),
+`wastar_curva_multiplos` e `wastar_degradado`; notebook, `wastar_controle` (ato 15).
+
+## 14. O que os números sustentam
 
 - "A fórmula é a menos degradada" **não vale no v2**. No v1 essa frase vinha dos pares curtos e
   do mapa partido.
@@ -402,8 +485,11 @@ Tabelas: `b5_modelo_misto.csv`, `b5_anovarm_<métrica>_<regime>.csv`.
 - **O preço da fórmula (§8):** caminhos ~10% mais longos que o ótimo, no estático e no degradado.
 - **O mecanismo (§10):** a memória congelada perde em degrau assim que o caminho ótimo desvia; se o
   caminho não muda, ela não perde.
+- **A forma da fórmula vale mais que um peso (§13):** com o mesmo ρ, o WA\* expande 1,38× o que a fórmula
+  expande no original e 1,23× no degradado (mediana entre 15 mapas, todos a favor da fórmula); num 16º
+  mapa nem a busca gulosa chega ao ρ da fórmula.
 
-## 14. Limitações que continuam
+## 15. Limitações que continuam
 
 - **P3:** os tempos não sustentam conclusão; o v2 grava as colunas de tempo, mas a análise não
   as usa.
@@ -415,7 +501,7 @@ Tabelas: `b5_modelo_misto.csv`, `b5_anovarm_<métrica>_<regime>.csv`.
   mesmo para os dois regimes da memória, nem o da síntese da fórmula, que é feita uma vez, fora de
   linha.
 
-## 15. Como reproduzir
+## 16. Como reproduzir
 
 `docs/05-como-reproduzir.md`, seção 5 (C++), e `analise/estatistica-2026-08/README.md`, seção
 "Protocolo v2" (`run_all.py --v2`).
