@@ -228,16 +228,24 @@ Memória-20 e -50 em `tabelas_v2/b1_global.csv`.
 
 ### δ de Cliff e Wilcoxon (unidade = mapa, todos os níveis)
 
-| Métrica, regime | Comparação | Cliff δ | Wilcoxon p |
-|---|---|---|---|
-| δ, com atualização | Manhattan × Mem-100 | +0,10 (desprezível) | 0,52 |
-| δ, com atualização | Fórmula × Mem-100 | +0,25 (pequeno) | 0,064 |
-| δ, sem atualização | Manhattan × Mem-100 | −0,99 (grande) | < 0,001 |
-| δ, sem atualização | Fórmula × Mem-100 | −0,99 (grande) | < 0,001 |
-| absoluta, sem atualização | Fórmula × Mem-100 | −0,97 (grande) | < 0,001 |
-| absoluta, ambos | Fórmula × Manhattan | −1,00 (grande) | < 0,001 |
+Wilcoxon pareado bicaudal sobre os 17 valores por mapa, com correção de **Holm** sobre a tabela
+inteira do b1: 48 testes (2 métricas × 2 regimes × 4 níveis, contando "todos", × 3 comparações),
+uma família por recorte. δ de Cliff sobre os mesmos valores por mapa, sem pareamento.
 
-Por nível em `tabelas_v2/b1_cliff.csv`.
+| Métrica, regime | Comparação | Cliff δ | Wilcoxon p | p (Holm) |
+|---|---|---|---|---|
+| δ, com atualização | Manhattan × Mem-100 | +0,10 (desprezível) | 0,52 | 1,00 |
+| δ, com atualização | Fórmula × Mem-100 | +0,25 (pequeno) | 0,064 | 0,70 |
+| δ, sem atualização | Manhattan × Mem-100 | −0,99 (grande) | < 0,001 | 0,0007 |
+| δ, sem atualização | Fórmula × Mem-100 | −0,99 (grande) | < 0,001 | 0,0007 |
+| absoluta, sem atualização | Fórmula × Mem-100 | −0,97 (grande) | < 0,001 | 0,0007 |
+| absoluta, ambos | Fórmula × Manhattan | −1,00 (grande) | < 0,001 | 0,0007 |
+
+Nenhuma conclusão muda: todos os testes da métrica absoluta e os do δ sem atualização contra a
+Mem-100 continuam com p (Holm) = 0,0007 (0,0015 fora do treino). Deixam de ser significativos só 3
+testes por nível, que o texto não usava: δ com atualização a 10%, Fórmula × Mem-100 (p 0,005 → 0,070),
+e δ a 30%, Fórmula × Manhattan, nos dois regimes (0,040 → 0,55). Fora do treino são os mesmos 3.
+Por nível em `tabelas_v2/b1_cliff.csv` (colunas `wilcoxon_p` e `wilcoxon_p_holm`).
 
 ### Interação estratégia × padrão
 
@@ -340,7 +348,8 @@ por mapa. 2.700 linhas com origem = destino ficam fora.
 | Memória-100 com atualização | 1,00 | 1,08 | 1,40 | 1,94 | 3,36 |
 | Memória-100 sem atualização | 1,00 | 7,13 | 12,95 | 18,50 | 26,19 |
 
-- A Memória-100 sem atualização correlaciona mais que a fórmula em 14 de 17 mapas (Wilcoxon p = 0,0004);
+- A Memória-100 sem atualização correlaciona mais que a fórmula em 14 de 17 mapas (Wilcoxon p = 0,0004;
+  Holm sobre as 16 comparações do b4, 0,004);
   a Memória-10 sem atualização, não (7 de 17, p = 1,00). **A correlação sozinha não separa as
   heurísticas**; o que separa é a magnitude.
 - **A perda é em degrau:** com até 10% de desvio, a memória congelada já expande 4 a 7× mais (10 a 100
@@ -427,19 +436,19 @@ fórmula). A GBFS expande mais que a fórmula em todos os 17 mapas (de 1,01× a 
 Por padrão (níveis agregados): 15 / 0 / 0 / 1 em todos. Por padrão × nível, os únicos empates são
 `Linear` 20% (1) e `Linear` 30% (2).
 
-| Expansões WA\* (w\*) ÷ fórmula, 15 mapas | média geométrica | IC 95% BCa | mediana | intervalo entre os mapas | Wilcoxon p | δ de Cliff |
+| Expansões WA\* (w\*) ÷ fórmula, 15 mapas | média geométrica | IC 95% BCa | mediana | intervalo entre os mapas | Wilcoxon p (Holm) | δ de Cliff |
 |---|---|---|---|---|---|---|
-| original | **1,55** | [1,37; 1,93] | 1,38 | 1,15–3,51 | 6,1·10⁻⁵ | −0,46 (médio) |
-| degradado 10% | **1,39** | [1,26; 1,67] | 1,27 | 1,11–2,83 | 6,1·10⁻⁵ | −0,46 (médio) |
-| degradado 20% | **1,33** | [1,21; 1,57] | 1,21 | 1,09–2,55 | 6,1·10⁻⁵ | −0,45 (médio) |
-| degradado 30% | **1,27** | [1,17; 1,49] | 1,17 | 1,06–2,35 | 6,1·10⁻⁵ | −0,36 (médio) |
-| degradado, todos | **1,33** | [1,22; 1,58] | 1,23 | 1,09–2,57 | 6,1·10⁻⁵ | −0,44 (médio) |
+| original | **1,55** | [1,37; 1,93] | 1,38 | 1,15–3,51 | 3,1·10⁻⁴ | −0,46 (médio) |
+| degradado 10% | **1,39** | [1,26; 1,67] | 1,27 | 1,11–2,83 | 3,1·10⁻⁴ | −0,46 (médio) |
+| degradado 20% | **1,33** | [1,21; 1,57] | 1,21 | 1,09–2,55 | 3,1·10⁻⁴ | −0,45 (médio) |
+| degradado 30% | **1,27** | [1,17; 1,49] | 1,17 | 1,06–2,35 | 3,1·10⁻⁴ | −0,36 (médio) |
+| degradado, todos | **1,33** | [1,22; 1,58] | 1,23 | 1,09–2,57 | 3,1·10⁻⁴ | −0,44 (médio) |
 
 A estatística-padrão é a média geométrica nos mapas com IC 95% BCa (n = 15); a mediana e o intervalo
 entram como apoio.
 
-A fórmula expande menos que o WA\* com w\* nos 15 mapas, em todos os cenários (p = 6,1·10⁻⁵ é o menor
-possível do Wilcoxon exato com n = 15). Com o `brc100d` comparado à GBFS, n = 16: média geométrica
+A fórmula expande menos que o WA\* com w\* nos 15 mapas, em todos os cenários (p = 6,1·10⁻⁵, o menor
+possível do Wilcoxon exato bicaudal com n = 15; com Holm sobre os 5 cenários, 3,1·10⁻⁴). Com o `brc100d` comparado à GBFS, n = 16: média geométrica
 1,51× [1,34; 1,90] no original e 1,31× [1,21; 1,55] no degradado.
 
 > Com caminhos de qualidade igual, a fórmula expande **1,55× menos** que o WA\* no mapa original
@@ -452,8 +461,9 @@ possível do Wilcoxon exato com n = 15). Com o `brc100d` comparado à GBFS, n = 
 - **O casamento de ρ escorrega fora do treino.** O cerco [w_inf, w_sup] é estreito (|Δρ| ≤ 0,005), e o ρ
   da fórmula nos pares novos sai dele em 8 dos 15 mapas no original (em 5 fica acima de w_sup). A
   diferença de ρ fórmula − WA\*(w\*) tem mediana +0,004 no original (Wilcoxon p = 0,64) e cresce com a
-  degradação: +0,005, +0,009 e +0,010 a 10, 20 e 30% (p = 0,11; 0,04; 0,06). No degradado, então, parte da
-  vantagem é comprada com caminhos um pouco piores que os do WA\*. **Isso não muda a conclusão:** a
+  degradação: +0,005, +0,009 e +0,010 a 10, 20 e 30% (p = 0,11; 0,04; 0,06 sem correção; com Holm
+  sobre os 5 cenários, 0,22; 0,21; 0,22, nenhum significativo). A tendência, porém, é consistente: no
+  degradado, parte da vantagem pode vir de caminhos um pouco piores que os do WA\*. **Isso não muda a conclusão:** a
   expansão do WA\* cai com w (uma exceção de 0,2%, `den005d` entre w = 10,625 e 11,25). A GBFS é o ponto
   de menos expansões em todas as curvas da calibração e em todos os cenários avaliados. E nos 15 mapas, em
   todos os cenários agregados, a fórmula expande menos que a GBFS, com ρ ≤ o dela: fica **abaixo da curva

@@ -139,6 +139,8 @@ for metrica in ("delta", "absoluta"):
 
 PM, GL, PO = pd.DataFrame(linhas_pm), pd.DataFrame(linhas_gl), pd.DataFrame(linhas_po)
 FR, CL, PN = pd.DataFrame(linhas_fr), pd.DataFrame(linhas_cl), pd.DataFrame(linhas_pn)
+# Holm sobre a tabela inteira (metrica x regime x nivel x comparacao): uma familia por recorte
+CL["wilcoxon_p_holm"] = holm(CL.wilcoxon_p)
 for nome, t in (("por_mapa", PM), ("global", GL), ("postos", PO), ("friedman", FR),
                 ("cliff", CL), ("padrao_nivel", PN)):
     t.to_csv(TABELAS / f"b1_{nome}.csv", index=False)

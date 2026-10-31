@@ -73,6 +73,8 @@ for n in (10, 20, 50, 100):
                                  mapas_memoria_maior=int((d > 0).sum()), n_mapas=len(d),
                                  wilcoxon_p=wilcoxon(piv[mem], piv[ref]).pvalue))
 W = pd.DataFrame(linhas_w)
+# Holm sobre as 16 comparacoes (pivos x regime x referencia), uma familia
+W["wilcoxon_p_holm"] = holm(W.wilcoxon_p)
 W.to_csv(TABELAS / "b4_wilcoxon.csv", index=False)
 print("\n=== Wilcoxon pareado por mapa: a memória tem correlação maior que a referência? ===")
 print(W.round(4).to_string(index=False))

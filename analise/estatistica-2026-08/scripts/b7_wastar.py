@@ -216,6 +216,9 @@ for cen in PRINC:
                         wilcoxon_rho_p=wilcoxon(s.rho_formula, s.rho_cmp).pvalue,
                         cliff_delta_rho=cliffs_delta(s.rho_formula, s.rho_cmp)))
 EST = pd.DataFrame(est)
+# Holm por recorte: os 5 cenarios formam uma familia para expansoes e outra para rho
+for col in ("wilcoxon_p", "wilcoxon_rho_p"):
+    EST[col + "_holm"] = EST.groupby("recorte")[col].transform(holm)
 EST.to_csv(TABELAS / "wastar_estatistica.csv", index=False)
 print("\n=== Fórmula × WA* (w*): razão de expansões WA* ÷ fórmula entre os mapas ===")
 print(EST.round(4).to_string(index=False))
