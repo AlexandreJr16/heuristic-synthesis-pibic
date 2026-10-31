@@ -317,3 +317,28 @@ vector<int> verificaNivel(const vector<vector<bool>> &anterior, const vector<vec
   if (pares != paresOriginal) falha(contexto, "par conectado no original ficou desconectado");
   return pares;
 }
+
+// Primeira linha do mapa em resultados_sintese.csv (arena aparece duas vezes, P7)
+string formulaDoMapa(const string &mapa) {
+  ifstream f("../../dados/resultados_sintese.csv");
+  string l;
+  while (getline(f, l))
+    if (l.rfind(mapa + ",", 0) == 0) {
+      size_t a = l.find('"'), b = l.find('"', a + 1);
+      return l.substr(a + 1, b - a - 1);
+    }
+  throw runtime_error("formula nao encontrada para " + mapa);
+}
+
+// Mesma amostra de aptidao de main.cpp:108-117
+vector<char> amostraTreino(int n) {
+  vector<char> t(n, 0);
+  int tam = min(n, max(150, n / 4));
+  int estrato = n / tam;
+  srand(42);
+  for (int i = 0; i < tam; i++) {
+    int ini = i * estrato, fim = min(n, (i + 1) * estrato);
+    t[ini + rand() % (fim - ini)] = 1;
+  }
+  return t;
+}

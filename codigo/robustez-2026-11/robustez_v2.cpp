@@ -15,31 +15,6 @@ static PerfData mede(const ScenProblem &p, function<int(pair<int, int>, pair<int
 
 static bool existe(const string &f) { return ifstream(f).good(); }
 
-// Primeira linha do mapa em resultados_sintese.csv (arena aparece duas vezes, P7)
-static string formulaDoMapa(const string &mapa) {
-  ifstream f("../../dados/resultados_sintese.csv");
-  string l;
-  while (getline(f, l))
-    if (l.rfind(mapa + ",", 0) == 0) {
-      size_t a = l.find('"'), b = l.find('"', a + 1);
-      return l.substr(a + 1, b - a - 1);
-    }
-  throw runtime_error("formula nao encontrada para " + mapa);
-}
-
-// Mesma amostra de aptidao de main.cpp:108-117
-static vector<char> amostraTreino(int n) {
-  vector<char> t(n, 0);
-  int tam = min(n, max(150, n / 4));
-  int estrato = n / tam;
-  srand(42);
-  for (int i = 0; i < tam; i++) {
-    int ini = i * estrato, fim = min(n, (i + 1) * estrato);
-    t[ini + rand() % (fim - ini)] = 1;
-  }
-  return t;
-}
-
 // Divergencias conhecidas da formula na linha de base (P11): o valor exato cai num inteiro e o double
 // IEEE trunca 1 abaixo; o binario de marco (-ffast-math, outro GCC) nao. Mapa, id, v2 exp/caminho, marco exp/caminho
 static const vector<tuple<string, int, int, int, int, int>> DIVERGENCIAS_FORMULA = {

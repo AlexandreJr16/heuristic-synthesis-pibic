@@ -22,6 +22,9 @@
    hashGrid: FNV-1a do grid atual
    paresConectados: indices dos pares com origem e destino na mesma componente do grid atual
    verificaNivel: aborta se R1, R2, a cumulatividade ou a conectividade dos pares falharem
+ - Grupo: amostra
+   formulaDoMapa: formula de marco do mapa em dados/resultados_sintese.csv (1a ocorrencia, P7)
+   amostraTreino: pares da amostra de aptidao do AG (main.cpp:108-117, srand(42))
 */
 
 extern bool aplicaRegras;
@@ -44,3 +47,6 @@ vector<int> paresConectados(const vector<ScenProblem> &scen);
 vector<int> verificaNivel(const vector<vector<bool>> &anterior, const vector<vector<int>> &compOriginal,
                           int nCompOriginal, const vector<ScenProblem> &scen,
                           const vector<int> &paresOriginal, const string &contexto);
+
+string formulaDoMapa(const string &mapa);
+vector<char> amostraTreino(int n);

@@ -7,6 +7,7 @@
 #    conta_pivos        pivos que caem em celula bloqueada, v1 e v2
 #    exporta_grid       grid v1 e v2 a 30% de um (mapa, semente, padrao), para o notebook
 #    complemento_v2     memoria sem atualizacao (expansoes e caminho), custo de atualizar, otimo por BFS
+#    wastar_v2          controle: Weighted A* com rho casado ao da formula (calibra no original, avalia no v2)
 #
 #  Usa o src/ de codigo/medicoes-2026-08 (map, heuristics e astar sao byte a byte
 #  os de marco; `make confere-src` prova). Rode a partir DESTE diretorio.
@@ -26,9 +27,9 @@ MAPAS_POR_CUSTO = brc202d den602d brc100d brc201d brc101d den500d den000d den005
         brc000d brc203d arena2 hrt201n den501d den012d lak506d den011d arena
 PARTES = $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/partes/$(m)_$(s)))
 
-all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2
+all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2
 
-robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
+robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
 	$(CXX) -O2 -std=c++17 -o $@ $*.cpp degradacao_v2.cpp $(BASE)
 
 confere-src:
@@ -82,10 +83,34 @@ juntar-complemento:
 	cp $(SAIDA)/complemento_custo.csv ../../analise/estatistica-2026-08/medicoes/custo_atualizacao_v2.csv
 	cd $(SAIDA) && sha256sum complemento_congelada.csv complemento_custo.csv complemento_otimo.csv
 
+# Weighted A*: calibra por mapa (w = 1 conferido, grade + bissecao no treino), depois avalia por (mapa, semente)
+wastar-calibra: wastar_v2
+	mkdir -p $(SAIDA)/logs_wastar
+	for m in $(MAPAS_POR_CUSTO); do echo $$m; done | \
+	  xargs -P $(P) -n 1 sh -c './wastar_v2 calibra $$0 $(SAIDA) 2> $(SAIDA)/logs_wastar/$$0_calibra.log || { echo "FALHOU $$0 (codigo $$?)"; exit 255; }'
+
+wastar: wastar_v2
+	mkdir -p $(SAIDA)/logs_wastar
+	for m in $(MAPAS_POR_CUSTO); do for s in $(SEMENTES); do echo $$m $$s; done; done | \
+	  xargs -P $(P) -n 2 sh -c './wastar_v2 avalia $$0 $$1 $(SAIDA) 2> $(SAIDA)/logs_wastar/$$0_$$1.log || { echo "FALHOU $$0 $$1"; exit 255; }'
+
+juntar-wastar:
+	for t in w1 calibracao pesos orig; do \
+	  awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(SAIDA)/wastar/$(m)_$$t.csv) > $(SAIDA)/wastar_$$t.csv || exit 1; done
+	awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/wastar/$(m)_$(s)_aval.csv)) \
+	  > $(SAIDA)/wastar_aval.csv
+	cp $(SAIDA)/wastar_pesos.csv ../../analise/estatistica-2026-08/medicoes/wastar_pesos.csv
+	cp $(SAIDA)/wastar_calibracao.csv ../../analise/estatistica-2026-08/medicoes/wastar_calibracao_bruta.csv
+	cd $(SAIDA) && sha256sum wastar_w1.csv wastar_calibracao.csv wastar_pesos.csv wastar_orig.csv wastar_aval.csv
+
+juntar-wastar-calibra:
+	for t in w1 calibracao pesos orig; do \
+	  awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(SAIDA)/wastar/$(m)_$$t.csv) > $(SAIDA)/wastar_$$t.csv || exit 1; done
+
 # grids do den501d s42 a 30% (linear e radial) para analise/notebook-2026-10
 grids: exporta_grid
 	./exporta_grid den501d 42 Linear $(SAIDA)/cache/grids
 	./exporta_grid den501d 42 Radial $(SAIDA)/cache/grids
 
 clean:
-	rm -f robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2
+	rm -f robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2

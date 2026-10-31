@@ -10,6 +10,7 @@ perde pares. A síntese, as fórmulas e a linha de base são as de março: nada 
 | `complemento_v2` | por (mapa, semente): caminho e expansões da memória sem atualização, custo de atualizar os pivôs (células das BFS) e o ótimo por BFS numa amostra |
 | `conta_pivos` | pivôs que caem em célula bloqueada, v1 e v2 |
 | `exporta_grid` | grids v1 e v2 a 30%, com as passagens da R2, para o notebook |
+| `wastar_v2` | controle da fórmula: Weighted A\* (h = ⌊w · Manhattan⌋) e busca gulosa (GBFS), com o peso calibrado por mapa para casar o ρ da fórmula nos pares de treino e avaliado fora do treino no original e no v2 |
 
 O protocolo, as decisões e os números estão em `docs/06-protocolo-v2.md`. Os requisitos estão em
 `docs/especificacoes/degradacao-conectividade/spec.md`.
@@ -73,6 +74,21 @@ Medições complementares (≈ 1 h com `P=6`, 5,8 h de CPU; também retomáveis)
 make complemento P=6        # dados/brutos/v2/complemento/<mapa>_<semente>_{congelada,custo,otimo}.csv
 make juntar-complemento     # dados/brutos/v2/complemento_*.csv + sha256
 ```
+
+Controle com Weighted A\* (≈ 1 min de calibração e ≈ 15 min de avaliação com `P=6`; retomáveis):
+
+```fish
+make wastar-calibra P=6     # por mapa: w = 1 nos pares do original e a 30% (s42), grade + bissecao no treino
+make wastar P=6             # por (mapa, semente): w_inf, w*, w_sup e GBFS nos pares fora do treino, 15 cenarios
+make juntar-wastar          # dados/brutos/v2/wastar_{w1,calibracao,pesos,orig,aval}.csv + sha256
+```
+
+O A\* é o de março, sem mudança: a heurística é `floor(w * heuristicaManhattan)`, porque o `aStar` só
+aceita h inteiro. O `floor` mantém h ≤ w·h\*, então a garantia de custo ≤ w × ótimo continua valendo,
+e com w = 1 o h é exatamente o da Manhattan. A GBFS (f = h, o limite do WA\* quando w → ∞) é uma cópia
+do `aStar` que só troca a prioridade; o desempate (maior g primeiro) e o não reabrir fechados são os
+mesmos. Nos arquivos, w = `inf` é a GBFS. Saída 7 de `wastar_v2 calibra`: o ρ da fórmula ficou sem
+cerco com ρ não monotônico (não aconteceu).
 
 ## Saída
 
