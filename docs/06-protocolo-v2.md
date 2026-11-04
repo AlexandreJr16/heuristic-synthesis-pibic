@@ -520,3 +520,73 @@ Figuras: `figuras_v2/wastar_curva_mapa_mediano` (`den012d`, o mapa de razão med
 
 `docs/05-como-reproduzir.md`, seção 5 (C++), e `analise/estatistica-2026-08/README.md`, seção
 "Protocolo v2" (`run_all.py --v2`).
+
+## 17. Testes pedidos para o JBCS (novembro/2026)
+
+Três críticas esperadas de um revisor, cada uma com um teste, mais conferências nos dados que já
+existiam. Tudo entra no `run_all.py --v2` (b8 a b11); a ordem de execução e os comandos estão em
+§17.5.
+
+### 17.1 Teste 1: quanto das distâncias muda (`incremental_v2`, `b8_incremental.py`)
+
+**Pergunta.** O U do Q* (§9) é o recálculo completo das BFS dos pivôs. Métodos incrementais
+(Delling e Wagner; LPA\*; D\* Lite) só tocam as distâncias que mudam. Se poucas mudam, o Q* do §9 está
+inflado.
+
+**Método.** `codigo/robustez-2026-11/incremental_v2` usa a mesma degradação e os mesmos pivôs fixos do
+v2 (17 mapas × 5 sementes × 5 padrões × 3 níveis × 10, 20, 50 e 100 pivôs). Para cada pivô p, compara
+d(p, v) no original com d′(p, v) no degradado, célula a célula, e soma sobre os pivôs:
+
+- `mudaram`: células livres no degradado com d′ ≠ d;
+- `bloqueadas`: células alcançáveis de p no original que a degradação bloqueou;
+- **U_inc = mudaram + bloqueadas**, o conjunto que qualquer atualização incremental precisa tocar ao
+  menos uma vez;
+- **U_total** = visitas das BFS completas (o U do §9; confere com `complemento_custo` nas 5.100 linhas).
+
+U_inc é um **limite inferior**: ignora a fila de prioridade, a reabertura de vértices e todo o custo
+extra de um método incremental real. Não é uma estimativa do custo de nenhum deles. Como variante
+ainda mais favorável ao incremental, `u_mud` conta só as células que mudaram (apagar uma célula
+bloqueada sairia de graça). Q\*_inc = U_inc ÷ (c × ΔE), com o mesmo ΔE do §9.
+
+**Resultado.** Quase tudo muda, mesmo com pouco bloqueio:
+
+| Memória-100, mediana [mín; máx] nos 17 mapas | 10% | 20% | 30% |
+|---|---|---|---|
+| distâncias que mudam | 79,7% [31,7; 87,1] | 93,5% [61,5; 95,1] | 97,1% [83,6; 98,0] |
+| U_inc ÷ U_total | 93,0% [43,7; 100,4] | 123,5% [88,6; 126,0] | 149,9% [131,5; 152,8] |
+| só as que mudam ÷ U_total | 81,3% [32,1; 88,6] | 97,2% [62,7; 99,2] | 103,4% [86,7; 105,9] |
+
+- A fração quase não depende do número de pivôs (79,7% a 80,6% a 10%). Por padrão, a 10%: Radial
+  65,9%, Organic 77,9%, Sparse 78,9%, Stochastic 82,1%, Linear 92,8% (medianas entre os mapas).
+- A 20% e 30%, U_inc passa de U_total: as células bloqueadas somam ao que mudou, e quase toda célula
+  alcançável muda. Uma BFS nova visita menos células do que um método incremental teria de corrigir.
+- A explicação geométrica: com R2 o mapa continua conexo, mas cada bloqueio num corredor obriga um
+  desvio, e o desvio muda a distância de tudo o que fica depois dele na árvore de caminhos do pivô.
+
+**Q\* como faixa** (contra a fórmula, mediana entre os mapas, c = 1):
+
+| Memória-100 | 10% | 20% | 30% |
+|---|---|---|---|
+| Q\*_mud (só as que mudam) | 881 | 855 | 768 |
+| Q\*_inc (limite inferior) | 1.007 | 1.087 | 1.116 |
+| Q\*_total (recálculo, §9) | 1.131 | 910 | 763 |
+
+Com 10 pivôs: Q\*_mud 107 a 118, Q\*_inc 136 a 155 e Q\*_total 105 a 154, conforme o nível. Contra a memória sem atualização com os mesmos pivôs, 37 a 64
+(10 pivôs) e 326 a 621 (100 pivôs) com c = 1. Q\* escala com 1/c em todas as linhas.
+
+> Mesmo com uma atualização incremental ideal, que só toca as distâncias que mudaram, atualizar a
+> Memória-100 só compensa a partir de **1.073** buscas entre mudanças (mediana entre os mapas; de 637 a
+> 2.428), contra **921** com o recálculo completo (c = 1, contra a fórmula). Contando só as distâncias
+> que mudam, **838** (496 a 1.896). Fora do treino: 1.071, 911 e 817.
+
+- **A crítica não se sustenta:** o incremental ideal não encurta o limiar, porque a degradação muda
+  quase todas as distâncias. A faixa Q\*_inc–Q\*_total é estreita e, a 20% e 30%, invertida.
+- **Condição de parada do prompt (Q\*_inc < 10 na maioria dos mapas):** contra a fórmula, não acontece
+  com c de 1 a 10 (no pior caso, c = 10 e 10 pivôs, 4 mapas; com 20 pivôs ou mais, nenhum). Contra a
+  memória **sem atualização** com c = 10 acontece com 10 pivôs (17 mapas) e quase com 20 (8), mas ali o
+  Q\*_total já era 4 a 6 (§9): não é efeito do incremental.
+
+Tabelas: `tabelas_v2/b8_fracao_alterada.csv`, `b8_fracao_por_padrao.csv`, `b8_razao_inc_total.csv`,
+`b8_q_faixa_resumo.csv`, `b8_q_faixa_por_mapa.csv`, `b8_frase.csv` (e o mesmo em
+`tabelas_v2_fora_treino/`). Dados: `medicoes/incremental_v2.csv`. Figura:
+`figuras_v2/fracao_distancias_mudam`.
