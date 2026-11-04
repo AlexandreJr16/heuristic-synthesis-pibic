@@ -36,9 +36,24 @@ MAPAS = ["arena", "arena2", "brc000d", "brc100d", "brc101d", "brc201d", "brc202d
          "den602d", "hrt201n", "lak506d"]
 SEMENTES = [1, 2, 3, 4, 5]
 
+MAIORES_PRIMEIRO = False
+
+def custo_mapa(m):
+    """tempo de uma sintese ja concluida do mapa (qualquer semente); sem nenhuma, conta como a mais cara"""
+    ts = []
+    for f in SINT.glob(f"{m}__*.csv"):
+        try: ts.append(float(f.read_text().split(",")[4]))
+        except Exception: pass
+    return min(ts) if ts else float("inf")
+
 def tarefas():
     # rodada completa antes da próxima: parar no meio ainda deixa rodadas inteiras
-    return [(m, s) for s in SEMENTES for m in MAPAS]
+    t = [(m, s) for s in SEMENTES for m in MAPAS]
+    if MAIORES_PRIMEIRO:
+        # para encurtar a cauda: os mapas mais caros primeiro (a ordem nao muda o resultado de nenhuma tarefa)
+        custo = {m: custo_mapa(m) for m in MAPAS}
+        t.sort(key=lambda x: (-custo[x[0]], x[1]))
+    return t
 
 def pronta(m, s):   return (SINT / f"{m}__{s}.csv").exists()
 def ckpt(m, s):     return SINT / f"{m}__{s}.ckpt"
@@ -128,7 +143,10 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--merge", action="store_true")
     ap.add_argument("--sementes", help="restringe a fila, ex. 1,2,3 (ressintese do v2)")
+    ap.add_argument("--maiores-primeiro", action="store_true", help="fila pelos mapas mais caros primeiro")
     a = ap.parse_args()
+    global MAIORES_PRIMEIRO
+    MAIORES_PRIMEIRO = a.maiores_primeiro
     if a.sementes:
         global SEMENTES, FINAL
         SEMENTES = [int(x) for x in a.sementes.split(",")]
@@ -149,6 +167,7 @@ def main():
 
     fila = [x for x in tarefas() if not pronta(*x)]
     ativos = {}          # Popen -> (mapa, semente)
+    nucleo_de = {}       # Popen -> nucleo
     parando = False
 
     def ao_sinal(signum, frame):
@@ -168,12 +187,15 @@ def main():
             m, s = fila.pop(0)
             if pronta(m, s) or not reivindicar(m, s):
                 continue
-            nuc = nucleos[len(ativos) % len(nucleos)]
+            # nucleo livre (antes era len(ativos) % n: depois de uma tarefa acabar, duas dividiam o mesmo nucleo)
+            usados = {nucleo_de[q] for q in ativos}
+            nuc = next((c for c in nucleos if c not in usados), nucleos[len(ativos) % len(nucleos)])
             cmd = ["taskset", "-c", str(nuc), "nice", "-n", str(a.nice),
                    "./sintese_worker", m, str(s), str(a.ckpt), "--saida", str(SINT)]
             p = subprocess.Popen(cmd, cwd=CPP, env={**os.environ, "OMP_NUM_THREADS": "1"},
                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             ativos[p] = (m, s)
+            nucleo_de[p] = nuc
             print(f"  -> {m} s{s} (núcleo {nuc})")
         time.sleep(2)
         for p in list(ativos):
