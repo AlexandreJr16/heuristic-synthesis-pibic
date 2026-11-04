@@ -9,6 +9,7 @@
 #    complemento_v2     memoria sem atualizacao (expansoes e caminho), custo de atualizar, otimo por BFS
 #    wastar_v2          controle: Weighted A* com rho casado ao da formula (calibra no original, avalia no v2)
 #    ressintese_v2      teste 4 do JBCS: formula de marco e as 3 ressintetizadas (sementes 1-3) no protocolo v2
+#    tempo_v2           teste 2 do JBCS: tempo por busca e por visita da BFS (c medido); rodar sozinho
 #    incremental_v2     teste 1 do JBCS: distancias dos pivos que mudam (limite inferior da atualizacao incremental)
 #
 #  Usa o src/ de codigo/medicoes-2026-08 (map, heuristics e astar sao byte a byte
@@ -29,9 +30,9 @@ MAPAS_POR_CUSTO = brc202d den602d brc100d brc201d brc101d den500d den000d den005
         brc000d brc203d arena2 hrt201n den501d den012d lak506d den011d arena
 PARTES = $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/partes/$(m)_$(s)))
 
-all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2 ressintese_v2
+all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2 ressintese_v2 tempo_v2
 
-robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2 ressintese_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
+robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2 ressintese_v2 tempo_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
 	$(CXX) -O2 -std=c++17 -o $@ $*.cpp degradacao_v2.cpp $(BASE)
 
 confere-src:
@@ -137,5 +138,20 @@ juntar-ressintese:
 	  > $(SAIDA)/ressintese_v2.csv
 	cd $(SAIDA) && sha256sum ressintese_v2.csv
 
+# teste 2 do JBCS: um mapa por vez, uma thread, preso ao nucleo NUCLEO; nada mais do experimento rodando
+NUCLEO ?= 2
+tempo: tempo_v2
+	mkdir -p $(SAIDA)/logs_tempo
+	cat /sys/devices/system/cpu/cpu$(NUCLEO)/cpufreq/scaling_governor > $(SAIDA)/logs_tempo/ambiente.txt 2>&1 || true
+	cat /sys/devices/system/cpu/cpu$(NUCLEO)/cpufreq/energy_performance_preference >> $(SAIDA)/logs_tempo/ambiente.txt 2>&1 || true
+	uptime >> $(SAIDA)/logs_tempo/ambiente.txt
+	for m in $(MAPAS); do taskset -c $(NUCLEO) ./tempo_v2 $$m $(SAIDA) 2> $(SAIDA)/logs_tempo/$$m.log || { echo "FALHOU $$m"; exit 255; }; done
+
+juntar-tempo:
+	awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(SAIDA)/tempo/$(m)_busca.csv) > ../../analise/estatistica-2026-08/medicoes/tempo_busca_v2.csv
+	awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(SAIDA)/tempo/$(m)_bfs.csv) > ../../analise/estatistica-2026-08/medicoes/tempo_bfs_v2.csv
+	cp $(SAIDA)/logs_tempo/ambiente.txt ../../analise/estatistica-2026-08/medicoes/tempo_ambiente.txt
+	sha256sum ../../analise/estatistica-2026-08/medicoes/tempo_busca_v2.csv ../../analise/estatistica-2026-08/medicoes/tempo_bfs_v2.csv
+
 clean:
-	rm -f ressintese_v2 robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2
+	rm -f tempo_v2 ressintese_v2 robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2

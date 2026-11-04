@@ -14,8 +14,7 @@ Variante mais favoravel ao incremental: u_mud = so as celulas que mudaram (apaga
 custaria zero). Com 20% e 30% de bloqueio u_inc passa de u_total, porque as bloqueadas somam ao que mudou.
 
 Q*_inc = U_inc / (c * (E_alternativa - E_mem_atualizada)), com o mesmo Delta E do b3, contra a memoria sem
-atualizacao com o mesmo numero de pivos e contra a formula; c em {1, 2, 5, 10} e, se tabelas_v2/c_medido.csv
-existir (b10), tambem o c medido por (mapa, n).
+atualizacao com o mesmo numero de pivos e contra a formula; c em {1, 2, 5, 10}. O Q* com o c medido sai do b10.
 """
 import sys, numpy as np, pandas as pd
 sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent))
@@ -98,10 +97,6 @@ del rob, m10
 U = INC.groupby(["mapa", "nivel", "n_pivos"])[["u_inc", "u_total", "mudaram"]].mean()
 
 c_med = None
-if (TABELAS.parent / "tabelas_v2" / "c_medido.csv").exists():
-    cm = pd.read_csv(TABELAS.parent / "tabelas_v2" / "c_medido.csv")
-    c_med = cm.set_index(["mapa", "n_pivos"]).c
-
 linhas = []
 for (m, nv, n), u in U.iterrows():
     eu = E_upd[(m, nv, n)]
