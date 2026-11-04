@@ -94,7 +94,9 @@ E_form = m10.groupby(["mapa", "porcentagem_bloqueio"]).exp_deg_form.mean()
 mem = rob.groupby(["mapa", "porcentagem_bloqueio", "n_pivos"])
 E_upd, E_cong = mem.exp_deg_mem.mean(), mem.exp_deg_mem_congelado.mean()
 del rob, m10
-U = INC.groupby(["mapa", "nivel", "n_pivos"])[["u_inc", "u_total", "mudaram"]].mean()
+# fora do treino, arena nao tem par: o Q* so existe nos mapas com pares
+U = INC[INC.mapa.isin(E_form.index.get_level_values("mapa"))].groupby(["mapa", "nivel", "n_pivos"])[
+    ["u_inc", "u_total", "mudaram"]].mean()
 
 c_med = None
 linhas = []
@@ -170,8 +172,8 @@ FR.to_csv(TABELAS / "b8_frase.csv", index=False)
 print("\n" + FR.drop(columns="frase").round(1).to_string(index=False))
 print("\n" + frase)
 abaixo = max(FR[FR.c == ref].mapas_q_inc_abaixo_10.iloc[0], FR[FR.c == ref].mapas_q_mud_abaixo_10.iloc[0])
-if abaixo > 17 / 2:
-    print(f"\n*** ATENCAO: Q*_inc < 10 buscas em {abaixo} de 17 mapas (c {ref}): condicao de parada do prompt ***")
+if abaixo > U.index.get_level_values("mapa").nunique() / 2:
+    print(f"\n*** ATENCAO: Q*_inc < 10 buscas em {abaixo} mapas (c {ref}): condicao de parada do prompt ***")
 
 # conferencia 4 sai daqui: pivos fora da componente do primeiro pivo
 PIV["pivos_fora_comp_primeiro"] = PIV.pivos_fora_comp_primeiro.astype(int)
