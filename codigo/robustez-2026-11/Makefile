@@ -8,6 +8,7 @@
 #    exporta_grid       grid v1 e v2 a 30% de um (mapa, semente, padrao), para o notebook
 #    complemento_v2     memoria sem atualizacao (expansoes e caminho), custo de atualizar, otimo por BFS
 #    wastar_v2          controle: Weighted A* com rho casado ao da formula (calibra no original, avalia no v2)
+#    ressintese_v2      teste 4 do JBCS: formula de marco e as 3 ressintetizadas (sementes 1-3) no protocolo v2
 #    incremental_v2     teste 1 do JBCS: distancias dos pivos que mudam (limite inferior da atualizacao incremental)
 #
 #  Usa o src/ de codigo/medicoes-2026-08 (map, heuristics e astar sao byte a byte
@@ -28,9 +29,9 @@ MAPAS_POR_CUSTO = brc202d den602d brc100d brc201d brc101d den500d den000d den005
         brc000d brc203d arena2 hrt201n den501d den012d lak506d den011d arena
 PARTES = $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/partes/$(m)_$(s)))
 
-all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2
+all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2 ressintese_v2
 
-robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
+robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2 ressintese_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
 	$(CXX) -O2 -std=c++17 -o $@ $*.cpp degradacao_v2.cpp $(BASE)
 
 confere-src:
@@ -124,5 +125,17 @@ juntar-incremental:
 	  > ../../analise/estatistica-2026-08/medicoes/incremental_v2.csv
 	sha256sum ../../analise/estatistica-2026-08/medicoes/incremental_v2.csv
 
+# teste 4 do JBCS: depois da sintese (sintese_pool.py --sementes 1,2,3 e --merge)
+FORMULAS_V2 = ../../analise/estatistica-2026-08/formulas_v2_seed/formulas_v2_seed.csv
+ressintese: ressintese_v2
+	mkdir -p $(SAIDA)/logs_ressintese
+	for m in $(MAPAS_POR_CUSTO); do for s in $(SEMENTES); do echo $$m $$s; done; done | \
+	  xargs -P $(P) -n 2 sh -c 'taskset -c $(CPUS) ./ressintese_v2 $$0 $$1 $(SAIDA) $(FORMULAS_V2) 2> $(SAIDA)/logs_ressintese/$$0_$$1.log || { echo "FALHOU $$0 $$1"; exit 255; }'
+
+juntar-ressintese:
+	awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/ressintese/$(m)_$(s).csv)) \
+	  > $(SAIDA)/ressintese_v2.csv
+	cd $(SAIDA) && sha256sum ressintese_v2.csv
+
 clean:
-	rm -f robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2
+	rm -f ressintese_v2 robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2
