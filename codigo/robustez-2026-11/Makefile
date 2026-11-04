@@ -8,6 +8,7 @@
 #    exporta_grid       grid v1 e v2 a 30% de um (mapa, semente, padrao), para o notebook
 #    complemento_v2     memoria sem atualizacao (expansoes e caminho), custo de atualizar, otimo por BFS
 #    wastar_v2          controle: Weighted A* com rho casado ao da formula (calibra no original, avalia no v2)
+#    incremental_v2     teste 1 do JBCS: distancias dos pivos que mudam (limite inferior da atualizacao incremental)
 #
 #  Usa o src/ de codigo/medicoes-2026-08 (map, heuristics e astar sao byte a byte
 #  os de marco; `make confere-src` prova). Rode a partir DESTE diretorio.
@@ -27,9 +28,9 @@ MAPAS_POR_CUSTO = brc202d den602d brc100d brc201d brc101d den500d den000d den005
         brc000d brc203d arena2 hrt201n den501d den012d lak506d den011d arena
 PARTES = $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/partes/$(m)_$(s)))
 
-all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2
+all: robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2
 
-robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
+robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2: %: %.cpp degradacao_v2.cpp degradacao_v2.h $(BASE)
 	$(CXX) -O2 -std=c++17 -o $@ $*.cpp degradacao_v2.cpp $(BASE)
 
 confere-src:
@@ -111,5 +112,17 @@ juntar-wastar-calibra:
 grids: exporta_grid
 	for p in Linear Organic Radial Sparse Stochastic; do ./exporta_grid den501d 42 $$p $(SAIDA)/cache/grids || exit 1; done
 
+# teste 1 do JBCS: por (mapa, semente); CPUS restringe os nucleos (ex. CPUS=6-11 enquanto a sintese ocupa 0-5)
+CPUS ?= 0-11
+incremental: incremental_v2
+	mkdir -p $(SAIDA)/logs_incremental
+	for m in $(MAPAS_POR_CUSTO); do for s in $(SEMENTES); do echo $$m $$s; done; done | \
+	  xargs -P $(P) -n 2 sh -c 'taskset -c $(CPUS) nice -n 10 ./incremental_v2 $$0 $$1 $(SAIDA) 2> $(SAIDA)/logs_incremental/$$0_$$1.log || { echo "FALHOU $$0 $$1"; exit 255; }'
+
+juntar-incremental:
+	awk 'FNR>1 || NR==1' $(foreach m,$(MAPAS),$(foreach s,$(SEMENTES),$(SAIDA)/incremental/$(m)_$(s).csv)) \
+	  > ../../analise/estatistica-2026-08/medicoes/incremental_v2.csv
+	sha256sum ../../analise/estatistica-2026-08/medicoes/incremental_v2.csv
+
 clean:
-	rm -f robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2
+	rm -f robustez_v2 testa_degradacao conta_pivos exporta_grid complemento_v2 wastar_v2 incremental_v2
