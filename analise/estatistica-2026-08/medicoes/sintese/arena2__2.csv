@@ -1,0 +1,1 @@
+arena2,2,80,100,1045255.303,"(sqr (+ deltaX (max (max (+ (+ (sqrt (sqrt (abs deltaX))) 6.1) (sqrt (max deltaY 4.8))) (sqrt deltaX)) (abs (- (sqrt (neg (- (max (neg (+ (abs (abs (- (min (neg deltaX) (neg deltaX)) deltaX))) deltaX)) (neg (abs (+ (sqrt deltaY) deltaY)))) deltaX))) deltaY)))))",4.860438,44,17

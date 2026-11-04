@@ -1,0 +1,1 @@
+den501d,3,80,100,2058652.985,"(+ (* (abs (neg 5.1)) deltaX) (max deltaY (sqr (max (- (max deltaX (max (- (/ deltaX (neg deltaX)) (neg deltaY)) deltaX)) (neg deltaY)) deltaX))))",2.545343,25,11

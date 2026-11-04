@@ -1,0 +1,1 @@
+den005d,3,80,100,1794596.845,"(- (sqr (abs (- (neg (abs deltaY)) 4.5))) (neg (- (sqr (+ deltaX (min (abs deltaX) deltaX))) (neg (- (sqr (+ deltaX (min (sqr deltaX) (neg (abs 7.0))))) (neg (sqr (abs (- (neg (abs (- (neg deltaY) 4.5))) 4.5)))))))))",3.068729,39,14

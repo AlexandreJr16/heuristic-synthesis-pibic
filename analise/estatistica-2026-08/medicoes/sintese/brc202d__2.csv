@@ -1,0 +1,1 @@
+brc202d,2,80,100,8210820.672,"(sqr (max (+ deltaX deltaX) (max (+ (max (max (+ (max (+ deltaY (abs (sqrt (+ (+ deltaX deltaX) deltaX)))) 4.9) deltaX) (max (+ (max deltaY deltaY) (/ (+ deltaY (/ (+ deltaY deltaX) 3.5)) 3.5)) (+ (sqrt deltaX) deltaY))) 3.5) (/ (max deltaY deltaX) 4.9)) deltaX)))",1.981095,47,14

@@ -1,0 +1,150 @@
+pool: 6 workers, núcleos 0-5, nice 19, checkpoint a cada 5 gerações
+concluídas : 14/51
+  rodada 1: █████████████···· 13/17
+  rodada 2: █················ 1/17
+  rodada 3: ················· 0/17
+faltam     : 37
+  -> den500d s1 (núcleo 0)
+  -> den501d s1 (núcleo 1)
+  -> den602d s1 (núcleo 2)
+  -> hrt201n s1 (núcleo 3)
+  -> arena2 s2 (núcleo 4)
+  -> brc000d s2 (núcleo 5)
+  ok brc000d s2   [15/51]  ETA ~6.8 h
+consolidado: 15 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc100d s2 (núcleo 5)
+  ok arena2 s2   [16/51]  ETA ~5.1 h
+consolidado: 16 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc101d s2 (núcleo 5)
+
+[parada solicitada] avisando 6 worker(s); eles terminam a geração corrente e gravam checkpoint...
+  ⏸  den602d s1 pausada na geração 30/100 (checkpoint gravado)
+  ⏸  brc101d s2 pausada na geração 5/100 (checkpoint gravado)
+  ⏸  den501d s1 pausada na geração 56/100 (checkpoint gravado)
+  ⏸  hrt201n s1 pausada na geração 72/100 (checkpoint gravado)
+  ⏸  den500d s1 pausada na geração 36/100 (checkpoint gravado)
+  ⏸  brc100d s2 pausada na geração 9/100 (checkpoint gravado)
+consolidado: 16 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+
+[parado — reinvoque para continuar de onde parou]
+pool: 6 workers, núcleos 0-5, nice 19, checkpoint a cada 5 gerações
+concluídas : 16/51
+  rodada 1: █████████████···· 13/17
+  rodada 2: ███·············· 3/17
+  rodada 3: ················· 0/17
+em progresso (checkpoint gravado):
+  den500d s1 — geração 36/100
+  den501d s1 — geração 56/100
+  den602d s1 — geração 30/100
+  hrt201n s1 — geração 72/100
+  brc100d s2 — geração 9/100
+  brc101d s2 — geração 5/100
+faltam     : 35
+  -> den500d s1 (núcleo 0)
+  -> den501d s1 (núcleo 1)
+  -> den602d s1 (núcleo 2)
+  -> hrt201n s1 (núcleo 3)
+  -> den500d s2 (núcleo 4)
+  -> den501d s2 (núcleo 5)
+  ok hrt201n s1   [17/51]  ETA ~5.8 h
+consolidado: 17 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den602d s2 (núcleo 3)
+  ok den501d s1   [18/51]  ETA ~5.9 h
+consolidado: 18 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> hrt201n s2 (núcleo 1)
+  ok den500d s1   [19/51]  ETA ~7.4 h
+consolidado: 19 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den500d s3 (núcleo 0)
+  ok hrt201n s2   [20/51]  ETA ~7.6 h
+consolidado: 20 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den501d s3 (núcleo 1)
+  ok den501d s2   [21/51]  ETA ~6.1 h
+consolidado: 21 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den602d s3 (núcleo 5)
+  ok den602d s1   [22/51]  ETA ~5.6 h
+consolidado: 22 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> hrt201n s3 (núcleo 2)
+  ok den500d s2   [23/51]  ETA ~6.1 h
+consolidado: 23 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> lak506d s2 (núcleo 4)
+  ok den501d s3   [24/51]  ETA ~5.2 h
+consolidado: 24 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> lak506d s3 (núcleo 1)
+  ok den602d s2   [25/51]  ETA ~4.6 h
+consolidado: 25 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc202d s2 (núcleo 3)
+  ok hrt201n s3   [26/51]  ETA ~4.3 h
+consolidado: 26 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc202d s3 (núcleo 2)
+  ok lak506d s3   [27/51]  ETA ~4.0 h
+consolidado: 27 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den012d s2 (núcleo 1)
+  ok lak506d s2   [28/51]  ETA ~3.7 h
+consolidado: 28 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den012d s3 (núcleo 4)
+  ok den500d s3   [29/51]  ETA ~3.6 h
+consolidado: 29 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den005d s2 (núcleo 0)
+  ok den012d s2   [30/51]  ETA ~3.7 h
+consolidado: 30 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den005d s3 (núcleo 1)
+  ok den012d s3   [31/51]  ETA ~3.4 h
+consolidado: 31 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc203d s2 (núcleo 4)
+  ok den005d s2   [32/51]  ETA ~3.4 h
+consolidado: 32 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc203d s3 (núcleo 0)
+  ok den602d s3   [33/51]  ETA ~3.0 h
+consolidado: 33 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den000d s2 (núcleo 5)
+  ok den005d s3   [34/51]  ETA ~2.8 h
+consolidado: 34 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den000d s3 (núcleo 1)
+  ok brc203d s2   [35/51]  ETA ~2.6 h
+consolidado: 35 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc100d s2 (núcleo 4)
+  ok brc203d s3   [36/51]  ETA ~2.6 h
+consolidado: 36 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc100d s3 (núcleo 0)
+  ok den000d s2   [37/51]  ETA ~2.4 h
+consolidado: 37 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc101d s2 (núcleo 5)
+  ok brc202d s2   [38/51]  ETA ~2.3 h
+consolidado: 38 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc101d s3 (núcleo 3)
+  ok den000d s3   [39/51]  ETA ~2.1 h
+consolidado: 39 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> arena2 s3 (núcleo 1)
+  ok arena2 s3   [40/51]  ETA ~1.9 h
+consolidado: 40 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc201d s2 (núcleo 1)
+  ok brc202d s3   [41/51]  ETA ~1.7 h
+consolidado: 41 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc201d s3 (núcleo 2)
+  ok brc100d s2   [42/51]  ETA ~1.5 h
+consolidado: 42 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den011d s2 (núcleo 4)
+  ok den011d s2   [43/51]  ETA ~1.3 h
+consolidado: 43 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> den011d s3 (núcleo 4)
+  ok den011d s3   [44/51]  ETA ~1.1 h
+consolidado: 44 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> brc000d s3 (núcleo 4)
+  ok brc000d s3   [45/51]  ETA ~1.0 h
+consolidado: 45 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  -> arena s3 (núcleo 4)
+  ok arena s3   [46/51]  ETA ~0.8 h
+consolidado: 46 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  ok brc100d s3   [47/51]  ETA ~0.6 h
+consolidado: 47 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  ok brc101d s2   [48/51]  ETA ~0.5 h
+consolidado: 48 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  ok brc101d s3   [49/51]  ETA ~0.3 h
+consolidado: 49 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  ok brc201d s2   [50/51]  ETA ~0.2 h
+consolidado: 50 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+  ok brc201d s3   [51/51]  ETA ~0.0 h
+consolidado: 51 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+consolidado: 51 sínteses -> formulas_v2_seed/formulas_v2_seed.csv
+
+[todas as 51 sínteses concluídas]

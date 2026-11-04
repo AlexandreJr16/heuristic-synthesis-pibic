@@ -1,0 +1,1 @@
+hrt201n,2,80,100,2226391.856,"(sqr (+ (+ (neg (sqrt 10.0)) (abs (sqrt (abs (sqr (+ (+ (sqrt deltaX) (max deltaY deltaX)) (max (abs (neg deltaY)) (+ (/ 2.6 (sqr deltaX)) (+ (sqrt (+ deltaY (+ deltaX deltaX))) (+ (sqrt (+ deltaX 6.8)) (+ (sqrt (+ deltaX deltaX)) 7.2))))))))))) 2.1))",2.249909,45,16

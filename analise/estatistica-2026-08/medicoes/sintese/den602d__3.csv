@@ -1,0 +1,1 @@
+den602d,3,80,100,6674332.829,"(neg (neg (sqr (max (+ deltaY (max deltaY (+ deltaY 4.2))) (+ deltaY (max (+ deltaX (sqrt (/ deltaX 9.5))) (+ (max (abs (- deltaY deltaX)) deltaY) (sqrt (abs (+ deltaX deltaX))))))))))",5.752174,32,11

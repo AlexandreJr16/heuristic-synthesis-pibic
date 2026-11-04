@@ -1,0 +1,41 @@
+   estado  pares_avaliados  violam  maior_rho_sobre_w  maior_rho  w_do_maior
+ original            47980       0           0.859105   2.512953       1.375
+degradado          3598500       0           0.914956   4.096774       1.375
+
+[1 rho <= w] original: 0 de 47,980 violam, maior rho/w = 0.8591; degradado: 0 de 3,598,500 violam, maior rho/w = 0.9150
+   mapa     categoria  grade_ampliada  w_inf  w_estrela  w_sup  maior_w_finito_testado  gbfs_e_teto
+ arena2   casado_gbfs               1   20.0     30.000  40.00                    40.0         True
+brc100d fora_da_curva               1   10.0        NaN    NaN                    10.0         True
+brc201d        casado               1    3.0      4.000   5.00                    10.0        False
+brc202d   casado_gbfs               1   20.0     40.000    inf                    40.0         True
+den000d   casado_gbfs               1   10.0     12.500  15.00                    20.0         True
+den005d   casado_gbfs               1   10.0     10.625  11.25                    20.0         True
+den012d        casado               1    5.0      7.500  10.00                    10.0        False
+den501d   casado_gbfs               1   10.0     12.500  15.00                    20.0         True
+den602d   casado_gbfs               1   10.0     15.000  20.00                    20.0         True
+hrt201n        casado               1    3.0      4.000   5.00                    10.0        False
+lak506d        casado               1    5.0      7.500  10.00                    10.0        False
+
+[2 calibracao do w] 11 de 17 mapas passaram de w = 3 (arena2 ate 40, brc100d ate 10, brc201d ate 10, brc202d ate 40, den000d ate 20, den005d ate 20, den012d ate 10, den501d ate 20, den602d ate 20, hrt201n ate 10, lak506d ate 10); GBFS como teto em 7: arena2 (casado_gbfs), brc100d (fora_da_curva), brc202d (casado_gbfs), den000d (casado_gbfs), den005d (casado_gbfs), den501d (casado_gbfs), den602d (casado_gbfs)
+
+[3 os 174.075 pares] 174,075 linhas = 2,321 pares com id % 10 == 0 (17 mapas; validos = todos no v2) x 5 sementes x 5 padroes x 3 niveis; 174,075 com caminho da Manhattan = BFS
+   mapa  semente  n_pivos  pivos_fora_comp_primeiro  tamanho_comp_primeiro
+brc201d       42       20                        17                    3.0
+
+[4 farthest-first fora da componente] 1 de 340 combinacoes (mapa, semente, n) sortearam pivo fora da componente do primeiro; mapas: brc201d
+
+[5 pivo em celula bloqueada] 4,873 de 5,100 combinacoes (mapa, semente, padrao, nivel, n) tem pivo bloqueado; nelas, 0 de 6,660,540 caminhos da memoria atualizada saem maiores que o otimo (em todos os pares: 0 de 6,963,000)
+
+=== 6. Interação estratégia × padrão: permutação com 10000 ===
+  todos os pares   delta    com_atualizacao  F=  29.901 p_200=0.00498 p_10000=0.000100 (nulo max 0.072)
+  todos os pares   delta    sem_atualizacao  F=   4.352 p_200=0.00498 p_10000=0.000100 (nulo max 0.044)
+  todos os pares   absoluta com_atualizacao  F=  10.798 p_200=0.00498 p_10000=0.000100 (nulo max 0.057)
+  todos os pares   absoluta sem_atualizacao  F=   6.486 p_200=0.00498 p_10000=0.000100 (nulo max 0.052)
+  fora do treino   delta    com_atualizacao  F=  30.508 p_200=0.00498 p_10000=0.000100 (nulo max 0.051)
+  fora do treino   delta    sem_atualizacao  F=   5.447 p_200=0.00498 p_10000=0.000100 (nulo max 0.064)
+  fora do treino   absoluta com_atualizacao  F=  10.077 p_200=0.00498 p_10000=0.000100 (nulo max 0.089)
+  fora do treino   absoluta sem_atualizacao  F=   7.086 p_200=0.00498 p_10000=0.000100 (nulo max 0.057)
+
+[6 permutacao com 10.000] F do atalho = F do b1 em todas as 8 linhas; p com 200 reproduz o b1 em 8 de 8; com 10,000 permutacoes, p = 0.00010; conclusoes que mudam a 5%: 0
+
+[7 rank-biserial pareada] 148 Wilcoxon pareados (b1, b4, b7) em tabelas_v2/efeito_pareado.csv; sinal igual ao do Cliff em 143; |r| mediano 1.00 contra |delta| mediano 0.69

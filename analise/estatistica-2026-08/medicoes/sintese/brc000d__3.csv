@@ -1,0 +1,1 @@
+brc000d,3,80,100,791011.100,"(sqr (+ (max (- deltaY (neg 8.6)) (+ deltaX 5.0)) (abs (neg (- (neg (sqrt (abs deltaY))) (sqrt (sqr (neg (- (neg deltaX) (sqrt (sqr (neg (+ deltaY (- (neg deltaX) (sqrt (sqr (sqrt (sqrt (* (+ (sqr deltaX) (sqr (+ (- deltaY (neg deltaY)) (max deltaX (sqrt deltaX))))) (+ deltaY deltaY))))))))))))))))))))",4.276602,52,25

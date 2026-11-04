@@ -1,0 +1,1 @@
+den500d,2,80,100,5463828.804,"(sqr (+ (max (max (* (abs (abs (- (neg 3.0) 9.7))) (+ (+ (+ deltaX deltaX) (sqrt deltaY)) (sqrt (- deltaX (+ (max deltaY (max (sqr deltaY) (max (* deltaX (abs 9.0)) deltaX))) deltaY))))) (max (sqr deltaY) deltaX)) (sqrt deltaY)) (sqrt deltaX)))",2.141998,42,15

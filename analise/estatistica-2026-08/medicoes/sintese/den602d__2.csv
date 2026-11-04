@@ -1,0 +1,1 @@
+den602d,2,80,100,5167757.989,"(sqr (+ (+ (+ (+ (sqrt (max (sqr 7.5) (abs (abs (- deltaY deltaX))))) (max 7.5 (+ (+ (+ (sqrt (/ (sqr deltaX) 8.4)) (max 9.2 deltaY)) (max (sqr 7.5) (abs deltaY))) (max (sqr 7.5) deltaY)))) 8.6) (max (max (sqr 7.5) deltaY) (abs deltaY))) (abs (max deltaX deltaY))))",5.855949,48,13
