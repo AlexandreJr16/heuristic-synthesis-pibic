@@ -1,0 +1,129 @@
+mapa,run_seed,razao_gbfs_sobre_formula,cenario,formula_expande_menos
+arena2,0,1.1098624482499544,original,True
+arena2,1,1.0734761226210996,original,True
+arena2,2,1.0988185408931403,original,True
+arena2,3,1.074020810537878,original,True
+brc000d,0,1.589339483214123,original,True
+brc000d,1,1.5997488645726907,original,True
+brc000d,2,1.5928071055725677,original,True
+brc000d,3,1.5454936083623316,original,True
+brc100d,0,1.0722134657825426,original,True
+brc100d,1,1.0796325110527567,original,True
+brc100d,2,1.066818717090804,original,True
+brc100d,3,1.0419092043533835,original,True
+brc101d,0,1.6201144944219124,original,True
+brc101d,1,1.6045492692675725,original,True
+brc101d,2,1.6007506160712965,original,True
+brc101d,3,1.6028824573150078,original,True
+brc201d,0,1.054573790445019,original,True
+brc201d,1,1.0135131190371165,original,True
+brc201d,2,1.0913648273070848,original,True
+brc201d,3,1.0979519922155252,original,True
+brc202d,0,1.1587528893909924,original,True
+brc202d,1,1.1953894804319378,original,True
+brc202d,2,1.1577842718176454,original,True
+brc202d,3,1.1857455720742718,original,True
+brc203d,0,2.183049584350198,original,True
+brc203d,1,2.184298736352629,original,True
+brc203d,2,2.212473495314076,original,True
+brc203d,3,2.173300057763334,original,True
+den000d,0,1.1538146694994564,original,True
+den000d,1,1.1852518414470654,original,True
+den000d,2,1.2288622934831495,original,True
+den000d,3,1.2292561301509282,original,True
+den005d,0,1.2607782503157638,original,True
+den005d,1,1.2401391208016581,original,True
+den005d,2,1.2321191100753635,original,True
+den005d,3,1.2264266781087598,original,True
+den011d,0,1.3271797854276086,original,True
+den011d,1,1.2494706309980992,original,True
+den011d,2,1.275922681528159,original,True
+den011d,3,1.321084842174951,original,True
+den012d,0,1.2676886147790607,original,True
+den012d,1,1.2559770280765703,original,True
+den012d,2,1.2067629463046268,original,True
+den012d,3,1.2838224521172956,original,True
+den500d,0,1.1966309469830432,original,True
+den500d,1,1.1621609944762739,original,True
+den500d,2,1.253542106979101,original,True
+den500d,3,1.1415440378967001,original,True
+den501d,0,1.1862013950996462,original,True
+den501d,1,1.2010645314468893,original,True
+den501d,2,1.1675205898438143,original,True
+den501d,3,1.1781178468526519,original,True
+den602d,0,1.4494761508846323,original,True
+den602d,1,1.4656949092884892,original,True
+den602d,2,1.4646715465407414,original,True
+den602d,3,1.4179319871999627,original,True
+hrt201n,0,1.2191808040646583,original,True
+hrt201n,1,1.2294814929105988,original,True
+hrt201n,2,1.2261507794372524,original,True
+hrt201n,3,1.2025219413363673,original,True
+lak506d,0,1.1484586459726052,original,True
+lak506d,1,1.1607941845074392,original,True
+lak506d,2,1.177249622133885,original,True
+lak506d,3,1.155277691263066,original,True
+arena2,0,1.0660083634179502,degradado (todos),True
+arena2,1,1.0510130745593034,degradado (todos),True
+arena2,2,1.0421395317677231,degradado (todos),True
+arena2,3,1.0532906008560479,degradado (todos),True
+brc000d,0,1.1719378860095873,degradado (todos),True
+brc000d,1,1.1935608961476878,degradado (todos),True
+brc000d,2,1.171866931718426,degradado (todos),True
+brc000d,3,1.149948370856427,degradado (todos),True
+brc100d,0,1.0826768871478993,degradado (todos),True
+brc100d,1,1.0367898923262715,degradado (todos),True
+brc100d,2,1.0495079284305575,degradado (todos),True
+brc100d,3,1.0230047149653023,degradado (todos),True
+brc101d,0,1.289976586026049,degradado (todos),True
+brc101d,1,1.2860493782508582,degradado (todos),True
+brc101d,2,1.2690086285661595,degradado (todos),True
+brc101d,3,1.2871088831630448,degradado (todos),True
+brc201d,0,1.0755349019380067,degradado (todos),True
+brc201d,1,1.040418297770616,degradado (todos),True
+brc201d,2,1.0430178496918687,degradado (todos),True
+brc201d,3,1.0613870235416816,degradado (todos),True
+brc202d,0,1.0709501141506224,degradado (todos),True
+brc202d,1,1.0970748793598903,degradado (todos),True
+brc202d,2,1.1060459403418519,degradado (todos),True
+brc202d,3,1.1319047068812322,degradado (todos),True
+brc203d,0,1.4584039757206553,degradado (todos),True
+brc203d,1,1.4917259782454961,degradado (todos),True
+brc203d,2,1.4684923301110802,degradado (todos),True
+brc203d,3,1.457853264432169,degradado (todos),True
+den000d,0,1.095164817985701,degradado (todos),True
+den000d,1,1.0979276603665076,degradado (todos),True
+den000d,2,1.141034310803693,degradado (todos),True
+den000d,3,1.139863975672198,degradado (todos),True
+den005d,0,1.1515645347079957,degradado (todos),True
+den005d,1,1.144809585151837,degradado (todos),True
+den005d,2,1.1375932509543407,degradado (todos),True
+den005d,3,1.140069283370169,degradado (todos),True
+den011d,0,1.1300509904839826,degradado (todos),True
+den011d,1,1.1367162232305774,degradado (todos),True
+den011d,2,1.1199388893434452,degradado (todos),True
+den011d,3,1.1607891144274245,degradado (todos),True
+den012d,0,1.0812760828015273,degradado (todos),True
+den012d,1,1.0764319002535572,degradado (todos),True
+den012d,2,1.0609558672947634,degradado (todos),True
+den012d,3,1.114106742188054,degradado (todos),True
+den500d,0,1.10349149172789,degradado (todos),True
+den500d,1,1.0815016777677668,degradado (todos),True
+den500d,2,1.1368099034841896,degradado (todos),True
+den500d,3,1.0706274546627443,degradado (todos),True
+den501d,0,1.0672892893094408,degradado (todos),True
+den501d,1,1.040778218021701,degradado (todos),True
+den501d,2,1.0325583607105304,degradado (todos),True
+den501d,3,1.0556689975826823,degradado (todos),True
+den602d,0,1.179104280905411,degradado (todos),True
+den602d,1,1.1837316144610057,degradado (todos),True
+den602d,2,1.1953820295853328,degradado (todos),True
+den602d,3,1.163305034023701,degradado (todos),True
+hrt201n,0,1.1285007122841741,degradado (todos),True
+hrt201n,1,1.142505726861413,degradado (todos),True
+hrt201n,2,1.1265724451937955,degradado (todos),True
+hrt201n,3,1.1409343016341609,degradado (todos),True
+lak506d,0,1.082266452184569,degradado (todos),True
+lak506d,1,1.0911372841164497,degradado (todos),True
+lak506d,2,1.0937017885324505,degradado (todos),True
+lak506d,3,1.091608496607333,degradado (todos),True

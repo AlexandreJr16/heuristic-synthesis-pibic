@@ -1,0 +1,149 @@
+fonte,recorte,comparacao,contexto,n_mapas,wilcoxon_p,wilcoxon_p_holm,cliff_delta,rank_biserial_pareada,magnitude_cliff,mesmo_sinal
+b1,todos os pares,Manhattan x Memória-100,"delta, com_atualizacao, nivel 10",17,0.0003814697265625,0.006103515625,0.5709342560553634,0.8954248366013072,grande,True
+b1,todos os pares,Fórmula x Memória-100,"delta, com_atualizacao, nivel 10",17,0.004638671875,0.069580078125,0.301038062283737,0.7516339869281046,pequeno,True
+b1,todos os pares,Fórmula x Manhattan,"delta, com_atualizacao, nivel 10",17,0.54766845703125,1.0,-0.0519031141868512,0.17647058823529413,desprezível,False
+b1,todos os pares,Manhattan x Memória-100,"delta, com_atualizacao, nivel 20",17,0.3060455322265625,1.0,0.1903114186851211,0.29411764705882354,pequeno,True
+b1,todos os pares,Fórmula x Memória-100,"delta, com_atualizacao, nivel 20",17,0.056884765625,0.6826171875,0.2664359861591696,0.5294117647058824,pequeno,True
+b1,todos os pares,Fórmula x Manhattan,"delta, com_atualizacao, nivel 20",17,0.3060455322265625,1.0,0.0311418685121107,0.29411764705882354,desprezível,True
+b1,todos os pares,Manhattan x Memória-100,"delta, com_atualizacao, nivel 30",17,0.5790557861328125,1.0,-0.1903114186851211,-0.16339869281045752,pequeno,True
+b1,todos os pares,Fórmula x Memória-100,"delta, com_atualizacao, nivel 30",17,0.1593780517578125,1.0,0.1141868512110726,0.39869281045751637,desprezível,True
+b1,todos os pares,Fórmula x Manhattan,"delta, com_atualizacao, nivel 30",17,0.0395355224609375,0.553497314453125,0.1903114186851211,0.5686274509803921,pequeno,True
+b1,todos os pares,Manhattan x Memória-100,"delta, com_atualizacao, nivel todos",17,0.51708984375,1.0,0.1003460207612456,0.1895424836601307,desprezível,True
+b1,todos os pares,Fórmula x Memória-100,"delta, com_atualizacao, nivel todos",17,0.0638275146484375,0.7021026611328125,0.2525951557093426,0.5163398692810458,pequeno,True
+b1,todos os pares,Fórmula x Manhattan,"delta, com_atualizacao, nivel todos",17,0.2068939208984375,1.0,0.0380622837370241,0.35947712418300654,desprezível,True
+b1,todos os pares,Manhattan x Memória-100,"delta, sem_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,-0.986159169550173,-1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"delta, sem_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,-0.9653979238754326,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"delta, sem_atualizacao, nivel 10",17,0.54766845703125,1.0,-0.0519031141868512,0.17647058823529413,desprezível,False
+b1,todos os pares,Manhattan x Memória-100,"delta, sem_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,-0.9930795847750864,-1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"delta, sem_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,-0.9930795847750864,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"delta, sem_atualizacao, nivel 20",17,0.3060455322265625,1.0,0.0311418685121107,0.29411764705882354,desprezível,True
+b1,todos os pares,Manhattan x Memória-100,"delta, sem_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"delta, sem_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"delta, sem_atualizacao, nivel 30",17,0.0395355224609375,0.553497314453125,0.1903114186851211,0.5686274509803921,pequeno,True
+b1,todos os pares,Manhattan x Memória-100,"delta, sem_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,-0.9930795847750864,-1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"delta, sem_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,-0.9930795847750864,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"delta, sem_atualizacao, nivel todos",17,0.2068939208984375,1.0,0.0380622837370241,0.35947712418300654,desprezível,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,0.8892733564013842,1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,0.8961937716262975,1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,0.986159169550173,1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,0.8961937716262975,1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,-0.8685121107266436,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel 10",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,-0.9930795847750864,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel 20",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel 30",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b1,todos os pares,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,1.0,1.0,grande,True
+b1,todos os pares,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,-0.972318339100346,-1.0,grande,True
+b1,todos os pares,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel todos",17,1.52587890625e-05,0.000732421875,-1.0,-1.0,grande,True
+b4,todos os pares,Memória-10 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,1.0,1.0,-0.01730103806228378,-0.006535947712418301,desprezível,True
+b4,todos os pares,Memória-10 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,7.62939453125e-05,0.00091552734375,0.5224913494809689,0.9607843137254902,grande,True
+b4,todos os pares,Memória-10 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,0.0008392333984375,0.0075531005859375,-0.4878892733564014,-0.8562091503267973,grande,True
+b4,todos os pares,Memória-10 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,0.8899688720703125,1.0,0.05190311418685112,-0.0457516339869281,desprezível,False
+b4,todos os pares,Memória-20 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,0.023223876953125,0.13934326171875,0.25951557093425603,0.6209150326797386,pequeno,True
+b4,todos os pares,Memória-20 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,1.52587890625e-05,0.000244140625,0.7647058823529411,1.0,grande,True
+b4,todos os pares,Memória-20 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,0.2246856689453125,0.89874267578125,-0.16262975778546718,-0.3464052287581699,pequeno,True
+b4,todos os pares,Memória-20 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,0.0008392333984375,0.0075531005859375,0.5224913494809689,0.8562091503267973,grande,True
+b4,todos os pares,Memória-50 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,0.1323699951171875,0.6618499755859375,0.3079584775086506,0.42483660130718953,pequeno,True
+b4,todos os pares,Memória-50 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,0.0003814697265625,0.0041961669921875,0.6885813148788926,0.8954248366013072,grande,True
+b4,todos os pares,Memória-50 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,0.2633209228515625,0.89874267578125,0.1418685121107266,0.3202614379084967,desprezível,True
+b4,todos os pares,Memória-50 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,0.001678466796875,0.011749267578125,0.6816608996539792,0.8169934640522876,grande,True
+b4,todos os pares,Memória-100 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,0.0003814697265625,0.0041961669921875,0.5086505190311419,0.8954248366013072,grande,True
+b4,todos os pares,Memória-100 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,1.52587890625e-05,0.000244140625,0.9031141868512111,1.0,grande,True
+b4,todos os pares,Memória-100 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",17,1.52587890625e-05,0.000244140625,0.6747404844290656,1.0,grande,True
+b4,todos os pares,Memória-100 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",17,1.52587890625e-05,0.000244140625,0.9100346020761245,1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"delta, com_atualizacao, nivel 10",16,0.000762939453125,0.01220703125,0.5078125,0.8823529411764706,grande,True
+b1,fora do treino,Fórmula x Memória-100,"delta, com_atualizacao, nivel 10",16,0.009185791015625,0.119415283203125,0.296875,0.7205882352941176,pequeno,True
+b1,fora do treino,Fórmula x Manhattan,"delta, com_atualizacao, nivel 10",16,0.2978515625,1.0,0.015625,0.3088235294117647,desprezível,True
+b1,fora do treino,Manhattan x Memória-100,"delta, com_atualizacao, nivel 20",16,0.40374755859375,1.0,0.09375,0.25,desprezível,True
+b1,fora do treino,Fórmula x Memória-100,"delta, com_atualizacao, nivel 20",16,0.116668701171875,1.0,0.1796875,0.45588235294117646,pequeno,True
+b1,fora do treino,Fórmula x Manhattan,"delta, com_atualizacao, nivel 20",16,0.14385986328125,1.0,0.0859375,0.4264705882352941,desprezível,True
+b1,fora do treino,Manhattan x Memória-100,"delta, com_atualizacao, nivel 30",16,0.231201171875,1.0,-0.296875,-0.35294117647058826,pequeno,True
+b1,fora do treino,Fórmula x Memória-100,"delta, com_atualizacao, nivel 30",16,0.252227783203125,1.0,0.0390625,0.3382352941176471,desprezível,True
+b1,fora do treino,Fórmula x Manhattan,"delta, com_atualizacao, nivel 30",16,0.00628662109375,0.09429931640625,0.21875,0.75,pequeno,True
+b1,fora do treino,Manhattan x Memória-100,"delta, com_atualizacao, nivel todos",16,0.781951904296875,1.0,-0.0078125,0.08823529411764706,desprezível,False
+b1,fora do treino,Fórmula x Memória-100,"delta, com_atualizacao, nivel todos",16,0.116668701171875,1.0,0.1796875,0.45588235294117646,pequeno,True
+b1,fora do treino,Fórmula x Manhattan,"delta, com_atualizacao, nivel todos",16,0.065399169921875,0.7847900390625,0.0859375,0.5294117647058824,desprezível,True
+b1,fora do treino,Manhattan x Memória-100,"delta, sem_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"delta, sem_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"delta, sem_atualizacao, nivel 10",16,0.2978515625,1.0,0.015625,0.3088235294117647,desprezível,True
+b1,fora do treino,Manhattan x Memória-100,"delta, sem_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"delta, sem_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"delta, sem_atualizacao, nivel 20",16,0.14385986328125,1.0,0.0859375,0.4264705882352941,desprezível,True
+b1,fora do treino,Manhattan x Memória-100,"delta, sem_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"delta, sem_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"delta, sem_atualizacao, nivel 30",16,0.00628662109375,0.09429931640625,0.21875,0.75,pequeno,True
+b1,fora do treino,Manhattan x Memória-100,"delta, sem_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"delta, sem_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"delta, sem_atualizacao, nivel todos",16,0.065399169921875,0.7847900390625,0.0859375,0.5294117647058824,desprezível,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, com_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, com_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, com_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,-0.9765625,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel 10",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel 20",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel 30",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Manhattan x Memória-100,"absoluta, sem_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,1.0,1.0,grande,True
+b1,fora do treino,Fórmula x Memória-100,"absoluta, sem_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b1,fora do treino,Fórmula x Manhattan,"absoluta, sem_atualizacao, nivel todos",16,3.0517578125e-05,0.00146484375,-1.0,-1.0,grande,True
+b4,fora do treino,Memória-10 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,0.979949951171875,1.0,-0.015625,0.014705882352941176,desprezível,False
+b4,fora do treino,Memória-10 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,9.1552734375e-05,0.0010986328125,0.5859375,0.9705882352941176,grande,True
+b4,fora do treino,Memória-10 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,0.001312255859375,0.010498046875,-0.5234375,-0.8529411764705882,grande,True
+b4,fora do treino,Memória-10 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,0.860260009765625,1.0,0.0546875,0.058823529411764705,desprezível,True
+b4,fora do treino,Memória-20 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,0.013092041015625,0.07855224609375,0.296875,0.6911764705882353,pequeno,True
+b4,fora do treino,Memória-20 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,3.0517578125e-05,0.00048828125,0.8515625,1.0,grande,True
+b4,fora do treino,Memória-20 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,0.348388671875,1.0,-0.15625,-0.27941176470588236,pequeno,True
+b4,fora do treino,Memória-20 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,0.000213623046875,0.002349853515625,0.578125,0.9411764705882353,grande,True
+b4,fora do treino,Memória-50 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,0.129730224609375,0.648651123046875,0.3515625,0.4411764705882353,médio,True
+b4,fora do treino,Memória-50 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,0.00042724609375,0.00384521484375,0.7734375,0.9117647058823529,grande,True
+b4,fora do treino,Memória-50 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,0.252227783203125,1.0,0.171875,0.3382352941176471,pequeno,True
+b4,fora do treino,Memória-50 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,0.00213623046875,0.01495361328125,0.765625,0.8235294117647058,grande,True
+b4,fora do treino,Memória-100 sem atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,0.000213623046875,0.002349853515625,0.59375,0.9411764705882353,grande,True
+b4,fora do treino,Memória-100 sem atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,3.0517578125e-05,0.00048828125,1.0,1.0,grande,True
+b4,fora do treino,Memória-100 com atualização x Fórmula,"spearman(desvio, aumento de expansoes)",16,3.0517578125e-05,0.00048828125,0.765625,1.0,grande,True
+b4,fora do treino,Memória-100 com atualização x Manhattan,"spearman(desvio, aumento de expansoes)",16,3.0517578125e-05,0.00048828125,1.0,1.0,grande,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"expansoes, original",15,6.103515625e-05,0.00030517578125,-0.4577777777777777,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"rho, original",15,0.638671875,0.638671875,0.0133333333333334,0.15,desprezível,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"expansoes, original",16,3.0517578125e-05,0.000152587890625,-0.453125,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"rho, original",16,0.40374755859375,0.40374755859375,0.015625,0.25,desprezível,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"expansoes, 10%",15,6.103515625e-05,0.00030517578125,-0.4577777777777777,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"rho, 10%",15,0.10699462890625,0.221435546875,0.1288888888888888,0.48333333333333334,desprezível,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"expansoes, 10%",16,3.0517578125e-05,0.000152587890625,-0.4375,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"rho, 10%",16,0.116668701171875,0.3330078125,0.125,0.45588235294117646,desprezível,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"expansoes, 20%",15,6.103515625e-05,0.00030517578125,-0.4488888888888889,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"rho, 20%",15,0.041259765625,0.206298828125,0.1999999999999999,0.6,pequeno,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"expansoes, 20%",16,3.0517578125e-05,0.000152587890625,-0.4296875,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"rho, 20%",16,0.05767822265625,0.28839111328125,0.1875,0.5441176470588235,pequeno,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"expansoes, 30%",15,6.103515625e-05,0.00030517578125,-0.36,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"rho, 30%",15,0.05535888671875,0.221435546875,0.2444444444444444,0.5666666666666667,pequeno,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"expansoes, 30%",16,3.0517578125e-05,0.000152587890625,-0.3515625,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"rho, 30%",16,0.083251953125,0.3330078125,0.21875,0.5,pequeno,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"expansoes, degradado (todos)",15,6.103515625e-05,0.00030517578125,-0.4399999999999999,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (rho casado (w*)),"rho, degradado (todos)",15,0.063720703125,0.221435546875,0.191111111111111,0.55,pequeno,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"expansoes, degradado (todos)",16,3.0517578125e-05,0.000152587890625,-0.421875,-1.0,médio,True
+b7,fora do treino (desenho do b7),Fórmula x WA* (todos (w*; GBFS fora da curva)),"rho, degradado (todos)",16,0.083251953125,0.3330078125,0.1796875,0.5,pequeno,True

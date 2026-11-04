@@ -1,0 +1,6 @@
+cenario,mapas_original_entre_pior_e_melhor,mapas_original_acima_de_todas,mapas_original_abaixo_de_todas,n_mapas
+original,10,4,2,16
+degradado (todos),7,6,3,16
+10%,7,5,4,16
+20%,7,6,3,16
+30%,8,5,3,16
