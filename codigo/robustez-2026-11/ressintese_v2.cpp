@@ -18,10 +18,15 @@ static vector<pair<int, string>> formulasNovas(const string &arq, const string &
   getline(f, l);
   while (getline(f, l)) {
     if (l.rfind(mapa + ",", 0) != 0) continue;
-    size_t c1 = l.find(','), c2 = l.find(',', c1 + 1);
-    int seed = stoi(l.substr(c1 + 1, c2 - c1 - 1));
-    size_t a = l.find('"'), b = l.find('"', a + 1);
-    r.push_back({seed, l.substr(a + 1, b - a - 1)});
+    // mapa,run_seed,populacao_inicial,n_geracoes,tempo_sintese_ms,formula_string,... (a formula nao tem virgula;
+    // aspas so aparecem se o csv for regravado com elas)
+    vector<string> c;
+    stringstream ss(l);
+    string x;
+    while (getline(ss, x, ',')) c.push_back(x);
+    string txt = c.at(5);
+    if (txt.size() >= 2 && txt.front() == '"') txt = txt.substr(1, txt.size() - 2);
+    r.push_back({stoi(c.at(1)), txt});
   }
   sort(r.begin(), r.end());
   return r;

@@ -18,7 +18,7 @@ log "formulas consolidadas: $n"
 if [ "$n" -ne 51 ]; then log "esperava 51 formulas; parando"; exit 1; fi
 
 log "teste 4: avaliando as formulas no v2"
-make ressintese P=6 CPUS=0-5
+make ressintese P=12 CPUS=0-11 || exit 1
 make juntar-ressintese
 log "teste 4 pronto"
 

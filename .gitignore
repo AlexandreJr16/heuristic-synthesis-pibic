@@ -17,6 +17,9 @@ codigo/robustez-2026-11/conta_pivos
 codigo/robustez-2026-11/exporta_grid
 codigo/robustez-2026-11/complemento_v2
 codigo/robustez-2026-11/wastar_v2
+codigo/robustez-2026-11/incremental_v2
+codigo/robustez-2026-11/ressintese_v2
+codigo/robustez-2026-11/tempo_v2
 
 # --- Python ------------------------------------------------------------------
 __pycache__/
