@@ -26,6 +26,8 @@ SINT = RAIZ / "medicoes" / "sintese"
 # O C++ auxiliar das medições fica em codigo/medicoes-2026-08/ (ver docs/02-arquitetura-do-codigo.md).
 CPP = RAIZ.parent.parent / "codigo" / "medicoes-2026-08"
 FINAL = RAIZ / "medicoes" / "sintese_repetida.csv"
+# com --sementes (ressintese do v2), o consolidado vai para formulas_v2_seed/, sem tocar no A9
+FINAL_V2 = RAIZ / "formulas_v2_seed" / "formulas_v2_seed.csv"
 CABECALHO = ("mapa,run_seed,populacao_inicial,n_geracoes,tempo_sintese_ms,"
              "formula_string,fitness_final,ast_size,ast_depth\n")
 
@@ -125,7 +127,13 @@ def main():
     ap.add_argument("--cores", default="0-5", help="núcleos permitidos, ex. 0-5")
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--merge", action="store_true")
+    ap.add_argument("--sementes", help="restringe a fila, ex. 1,2,3 (ressintese do v2)")
     a = ap.parse_args()
+    if a.sementes:
+        global SEMENTES, FINAL
+        SEMENTES = [int(x) for x in a.sementes.split(",")]
+        FINAL = FINAL_V2
+        FINAL.parent.mkdir(parents=True, exist_ok=True)
 
     SINT.mkdir(parents=True, exist_ok=True)
     if a.status: status(); return
@@ -162,7 +170,7 @@ def main():
                 continue
             nuc = nucleos[len(ativos) % len(nucleos)]
             cmd = ["taskset", "-c", str(nuc), "nice", "-n", str(a.nice),
-                   "./sintese_worker", m, str(s), str(a.ckpt)]
+                   "./sintese_worker", m, str(s), str(a.ckpt), "--saida", str(SINT)]
             p = subprocess.Popen(cmd, cwd=CPP, env={**os.environ, "OMP_NUM_THREADS": "1"},
                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             ativos[p] = (m, s)
@@ -177,7 +185,7 @@ def main():
                 feitos = sum(1 for x in tarefas() if pronta(*x))
                 dt = time.time() - t0
                 eta = (dt / concluidas_agora) * (len(tarefas()) - feitos) / 3600
-                print(f"  ok {m} s{s}   [{feitos}/85]  ETA ~{eta:.1f} h")
+                print(f"  ok {m} s{s}   [{feitos}/{len(tarefas())}]  ETA ~{eta:.1f} h")
                 merge()
             elif p.returncode == 130:
                 g = geracao_do_ckpt(m, s)
@@ -187,7 +195,7 @@ def main():
 
     merge()
     print("\n[parado — reinvoque para continuar de onde parou]" if parando
-          else "\n[todas as 85 sínteses concluídas]")
+          else f"\n[todas as {len(tarefas())} sínteses concluídas]")
 
 if __name__ == "__main__":
     main()

@@ -1,8 +1,8 @@
 // Uma síntese (mapa, semente) por invocação, retomável.
 //
-//   ./sintese_worker <mapa> <run_seed> [gerações_por_checkpoint]
+//   ./sintese_worker <mapa> <run_seed> [gerações_por_checkpoint] [--saida <pasta>]
 //
-// Saídas em ../medicoes/sintese/:
+// Saídas em ../medicoes/sintese/ (ou na pasta de --saida):
 //   <mapa>__<semente>.csv    resultado final (existir = tarefa concluída)
 //   <mapa>__<semente>.ckpt   estado parcial (some quando a tarefa termina)
 //
@@ -16,14 +16,21 @@ static volatile sig_atomic_t pedidoParada = 0;
 static void aoSinal(int) { pedidoParada = 1; }
 
 int main(int argc, char **argv) {
-  if (argc < 3) { std::cerr << "uso: sintese_worker <mapa> <run_seed> [ckpt_every]\n"; return 2; }
-  const std::string alvo = argv[1];
-  const int runSeed = std::atoi(argv[2]);
-  const int ckptEvery = argc > 3 ? std::atoi(argv[3]) : 5;
+  // --saida <pasta> e opcional e pode vir em qualquer posicao; sem ele, a pasta antiga
+  std::string dir = "../medicoes/sintese/";
+  std::vector<std::string> pos;
+  for (int i = 1; i < argc; i++) {
+    std::string a = argv[i];
+    if (a == "--saida" && i + 1 < argc) { dir = argv[++i]; if (dir.back() != '/') dir += '/'; }
+    else pos.push_back(a);
+  }
+  if (pos.size() < 2) { std::cerr << "uso: sintese_worker <mapa> <run_seed> [ckpt_every] [--saida <pasta>]\n"; return 2; }
+  const std::string alvo = pos[0];
+  const int runSeed = std::atoi(pos[1].c_str());
+  const int ckptEvery = pos.size() > 2 ? std::atoi(pos[2].c_str()) : 5;
 
   signal(SIGINT, aoSinal); signal(SIGTERM, aoSinal);
 
-  const std::string dir = "../medicoes/sintese/";
   const std::string base = dir + alvo + "__" + std::to_string(runSeed);
   const std::string fResultado = base + ".csv", fCkpt = base + ".ckpt";
   { std::ifstream j(fResultado); if (j.good()) { std::cerr << "[já concluída]\n"; return 0; } }
