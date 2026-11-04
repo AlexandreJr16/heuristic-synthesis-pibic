@@ -10,6 +10,9 @@ perde pares. A síntese, as fórmulas e a linha de base são as de março: nada 
 | `complemento_v2` | por (mapa, semente): caminho e expansões da memória sem atualização, custo de atualizar os pivôs (células das BFS) e o ótimo por BFS numa amostra |
 | `conta_pivos` | pivôs que caem em célula bloqueada, v1 e v2 |
 | `exporta_grid` | grids v1 e v2 a 30%, com as passagens da R2, para o notebook |
+| `incremental_v2` | teste 1 do JBCS: por (mapa, semente), distâncias dos pivôs que mudam com a degradação (limite inferior do custo de uma atualização incremental) |
+| `ressintese_v2` | teste 4 do JBCS: a fórmula de março e as 3 ressintetizadas com semente fixa (1, 2, 3), no original e nos 15 cenários do v2 |
+| `tempo_v2` | teste 2 do JBCS: tempo por busca (1 aquecimento + 5 medições) e das BFS de recálculo, para medir o c; rodar sozinho na máquina |
 | `wastar_v2` | controle da fórmula: Weighted A\* (h = ⌊w · Manhattan⌋) e busca gulosa (GBFS), com o peso calibrado por mapa para casar o ρ da fórmula nos pares de treino e avaliado fora do treino no original e no v2 |
 
 O protocolo, as decisões e os números estão em `docs/06-protocolo-v2.md`. Os requisitos estão em
@@ -81,6 +84,16 @@ Controle com Weighted A\* (≈ 1 min de calibração e ≈ 15 min de avaliação
 make wastar-calibra P=6     # por mapa: w = 1 nos pares do original e a 30% (s42), grade + bissecao no treino
 make wastar P=6             # por (mapa, semente): w_inf, w*, w_sup e GBFS nos pares fora do treino, 15 cenarios
 make juntar-wastar          # dados/brutos/v2/wastar_{w1,calibracao,pesos,orig,aval}.csv + sha256
+```
+
+Testes do JBCS (novembro/2026; números em `docs/06-protocolo-v2.md`, §17). A cadeia que depende da
+síntese está em `noite_jbcs.sh` (espera a ressíntese, consolida, avalia, mede o tempo):
+
+```fish
+make incremental P=6 && make juntar-incremental        # teste 1, ~2 min
+# teste 4: sintese (cd ../../analise/estatistica-2026-08; .venv/bin/python scripts/sintese_pool.py --sementes 1,2,3 --maiores-primeiro), ~9 h
+make ressintese P=6 && make juntar-ressintese           # teste 4, avaliacao das 4 formulas por mapa
+make tempo NUCLEO=2 && make juntar-tempo                # teste 2, uma thread, nada mais rodando
 ```
 
 O A\* é o de março, sem mudança: a heurística é `floor(w * heuristicaManhattan)`, porque o `aStar` só

@@ -157,9 +157,19 @@ make juntar-complemento
 make wastar-calibra P=6                                  # Weighted A*: w = 1 conferido, calibracao do peso (~1 min)
 make wastar P=6                                          # Weighted A* e GBFS fora do treino, 85 jobs (~15 min)
 make juntar-wastar
+make incremental P=6 && make juntar-incremental          # teste 1 do JBCS: distancias que mudam (~2 min)
+cd ../../analise/estatistica-2026-08                     # teste 4: ressintese com semente fixa (~9 h, retomavel)
+.venv/bin/python scripts/sintese_pool.py --sementes 1,2,3 --maiores-primeiro
+cd ../../codigo/robustez-2026-11
+make ressintese P=6 && make juntar-ressintese            # teste 4: as 4 formulas por mapa no v2
+make tempo NUCLEO=2 && make juntar-tempo                 # teste 2: tempo medido, sozinho na maquina
 cd ../../analise/estatistica-2026-08
-env HEURISTICAS_DADOS=$HOME/Downloads .venv/bin/python scripts/run_all.py --v2   # b1 a b7, ~8 min
+env HEURISTICAS_DADOS=$HOME/Downloads .venv/bin/python scripts/run_all.py --v2   # b1 a b11
 ```
+
+`codigo/robustez-2026-11/noite_jbcs.sh` faz a parte do teste 4 e do teste 2 sozinho: espera a
+síntese, consolida as 51 fórmulas em `analise/estatistica-2026-08/formulas_v2_seed/`, avalia e só
+então mede o tempo, quando nenhum outro job do experimento está rodando.
 
 O notebook `analise/notebook-2026-10/historia_v2.ipynb` conta a história a partir dessas tabelas
 (ver o README da pasta).

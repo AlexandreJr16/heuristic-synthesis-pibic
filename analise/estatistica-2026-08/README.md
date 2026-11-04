@@ -33,6 +33,11 @@ set -x HEURISTICAS_DADOS ~/caminho/para/02-dados-brutos   # para o Dijkstra e o 
 - As mesmas três regras de `comum.py` e a semente `20260820`. O v1 não muda: sem `--v2`, as
   34 tabelas saem byte a byte iguais às versionadas.
 
+Testes do JBCS (`docs/06-protocolo-v2.md`, §17): `b8_incremental` (teste 1, distâncias que mudam e faixa
+do Q\*), `b11_ressintese` (teste 4, 3 fórmulas novas por mapa, em `formulas_v2_seed/`) nos dois recortes;
+`b9_conferencias_jbcs` (conferências, `efeito_pareado.csv`, permutação com 10.000) e `b10_tempo` (teste 2,
+`c_medido.csv`) só em `tabelas_v2/`, no fim. `NPERM_B9=200` acelera o b9 para conferir.
+
 | Tabela | Conteúdo |
 |---|---|
 | `b1_global.csv` | média geométrica nos mapas, IC 95% BCa, mapas abaixo da Manhattan, por métrica × regime × nível |
