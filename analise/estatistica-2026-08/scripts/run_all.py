@@ -15,6 +15,9 @@ pares (tabelas_v2/) e so os pares fora do treino do AG (tabelas_v2_fora_treino/)
 dados/brutos/v2/ (ou HEURISTICAS_DADOS_V2), dos complementos (make complemento e make
 juntar-complemento em codigo/robustez-2026-11/), do Weighted A* (make wastar-calibra, make wastar e
 make juntar-wastar; b7 so em tabelas_v2/) e, para o Dijkstra, de HEURISTICAS_DADOS.
+Testes do JBCS: b8 (make incremental, juntar-incremental) e b11 (sintese_pool.py --sementes 1,2,3, make ressintese,
+juntar-ressintese) rodam nos dois recortes; b9 (conferencias) e b10 (make tempo, juntar-tempo) rodam no fim, so em
+tabelas_v2/, porque leem os dois recortes.
 """
 import os, subprocess, sys, time
 from pathlib import Path
@@ -33,9 +36,11 @@ ETAPAS = ["a11_pivos", "a10_descartes", "a3_estatico", "a2_ranking",
 
 # b2 e b6 leem b1_global/b1_por_mapa, b5 le b1_interacao
 ETAPAS_V2 = ["b1_protocolo_v2", "b4_mecanismo", "b5_modelo_misto", "b6_conferencias", "b2_qualidade_caminho",
-             "b3_equilibrio", "b7_wastar"]
+             "b3_equilibrio", "b7_wastar", "b8_incremental", "b11_ressintese"]
 # b7 ja usa so os pares fora do treino por desenho: roda so no primeiro recorte
 SO_TABELAS_V2 = {"b7_wastar"}
+# rodam depois dos dois recortes, so em tabelas_v2 (leem tabelas_v2 e tabelas_v2_fora_treino)
+FINAIS_V2 = ["b9_conferencias_jbcs", "b10_tempo"]
 RECORTES_V2 = {"tabelas_v2": {"PROTOCOLO": "v2"},
                "tabelas_v2_fora_treino": {"PROTOCOLO": "v2", "FORA_TREINO": "1"}}
 
@@ -50,6 +55,12 @@ def main_v2():
             r = subprocess.run([str(PY_), str(AQUI / f"{e}.py")], cwd=RAIZ, env={**os.environ, **amb})
             print(f"<<< {e} -> {saida}: {'ok' if r.returncode == 0 else 'FALHOU'} ({time.time()-t:.0f}s)")
             if r.returncode: falhas.append(f"{e} -> {saida}")
+    for e in FINAIS_V2:
+        t = time.time()
+        print(f"\n{'='*70}\n>>> {e} -> tabelas_v2\n{'='*70}", flush=True)
+        r = subprocess.run([str(PY_), str(AQUI / f"{e}.py")], cwd=RAIZ, env={**os.environ, "PROTOCOLO": "v2"})
+        print(f"<<< {e} -> tabelas_v2: {'ok' if r.returncode == 0 else 'FALHOU'} ({time.time()-t:.0f}s)")
+        if r.returncode: falhas.append(f"{e} -> tabelas_v2")
     if falhas:
         print("FALHARAM:", ", ".join(falhas)); sys.exit(1)
     print("v2 reproduzido.")
